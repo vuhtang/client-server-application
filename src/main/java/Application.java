@@ -16,7 +16,7 @@ public class Application {
 
     private void run(String[] args){
         if (args.length != 1){
-            System.out.println("Old collection will be used");
+            System.out.println("Old coollection will be used");
         } else filePath = args[0];
 
         WorkersCollection workers = new WorkersCollection(filePath);
