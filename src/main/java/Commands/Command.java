@@ -10,7 +10,7 @@ public abstract class Command {
         this.name = name;
         this.description = desc;
     }
-    public abstract void action(WorkersCollection workers);
+    public abstract void action(WorkersCollection workers, String args);
     public String getName(){return name;}
     public String getDescription() { return description; }
 }

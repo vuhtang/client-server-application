@@ -12,12 +12,12 @@ public class Save extends Command {
     }
 
     @Override
-    public void action(WorkersCollection workers) {
+    public void action(WorkersCollection workers, String args) {
         CollectionEditor editor = new CollectionEditor(workers);
         try {
             editor.saveCollection();
         } catch (IOException e) {
-            System.out.println("Failed to save the collection to file");;
+            System.out.println("Failed to save the collection to file");
         }
         System.out.println("Collection saved successfully");
     }

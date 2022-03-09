@@ -3,7 +3,7 @@ package Fabrics;
 import Collection.Entity.Coordinates;
 
 public class CoordinatesFabric {
-    private Coordinates coordinates = new Coordinates();
+    private final Coordinates coordinates = new Coordinates();
 
     public CoordinatesFabric setX(String value) throws NumberFormatException {
         try {
@@ -13,7 +13,7 @@ public class CoordinatesFabric {
             coordinates.setX(longValue);
         } catch (NumberFormatException e){
             throw new NumberFormatException
-                    ("The x coordinate of the worker in the file is not correct");
+                    ("The x coordinate of the worker is not correct");
         }
         return this;
     }
@@ -23,7 +23,7 @@ public class CoordinatesFabric {
             coordinates.setY(floatValue);
         } catch (NumberFormatException e){
             throw new NumberFormatException
-                    ("The y coordinate of the worker in the file is not correct");
+                    ("The y coordinate of the worker is not correct");
         }
         return this;
     }

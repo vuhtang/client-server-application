@@ -1,6 +1,7 @@
-package ParserCSV;
+package Parser;
 
 import Collection.Entity.*;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,38 +21,32 @@ public class WorkersReader {
     private Person person;
     private Coordinates coordinates;
     private Worker worker;
-    private Scanner scanner;
 
     public static List<Worker> readWorkers(String path1) throws IOException,
             InvalidInputFormat {
         Path path = Paths.get(path1);
         try {
             Scanner scanner = new Scanner(path);
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new IOException("No such file or directory");
         }
         Scanner scanner = new Scanner(path);
         List<Worker> list = new ArrayList<>();
         WorkersReader reader = new WorkersReader();
-        String line;
         if (!scanner.hasNext()) throw new InvalidInputFormat("The input file is empty");
         scanner.nextLine();
         if (!scanner.hasNext()) throw new InvalidInputFormat("The input file has no data");
-        while (scanner.hasNext()){
-            line = scanner.nextLine();
-            try {
-                list.add(reader.readWorker(line));
-            } catch (IncorrectWorkerDetails e) {
-                throw new InvalidInputFormat(e.getMessage());
-            }
+        while (scanner.hasNext()) {
+            list.add(reader.readWorker(scanner.nextLine()));
         }
         return list;
     }
-    private  Worker readWorker(String line) throws IncorrectWorkerDetails{
+
+    private Worker readWorker(String line) throws InvalidInputFormat {
         List<String> fields = Arrays.asList(line.split(","));
-        if (fields.size() != 14) throw new IncorrectWorkerDetails
+        if (fields.size() != 14) throw new InvalidInputFormat
                 ("Expected 14 values in file, received: " + fields.size());
-        else{
+        else {
             try {
                 location = new LocationFabric().setName(fields.get(13)).setZ(fields.get(12))
                         .setY(fields.get(11)).setX(fields.get(10)).getLocation();
@@ -64,8 +59,9 @@ public class WorkersReader {
                         .setCreationDate(fields.get(4)).setSalary(fields.get(5))
                         .setPosition(fields.get(6)).setStatus(fields.get(7))
                         .setPerson(person).getWorker();
+
             } catch (NumberFormatException | InvalidInputFormat | DateTimeParseException e) {
-                throw new IncorrectWorkerDetails(e.getMessage());
+                throw new InvalidInputFormat(e.getMessage());
             }
         }
         return worker;

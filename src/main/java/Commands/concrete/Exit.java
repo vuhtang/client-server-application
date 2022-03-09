@@ -9,7 +9,7 @@ public class Exit extends Command {
     }
 
     @Override
-    public void action(WorkersCollection workers){
+    public void action(WorkersCollection workers, String args){
         System.out.println("Application has completed its work");
     }
 }

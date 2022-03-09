@@ -12,12 +12,13 @@ public class Help extends Command {
     }
 
     @Override
-    public void action(WorkersCollection workers){
+    public void action(WorkersCollection workers, String args){
         System.out.println("\nThe list of available commands:");
         Set<Command> commands = CmdCollection.getCommands();
         for (Command command : commands) {
             System.out.println(" -" + command.getName()
                     + " //" + command.getDescription());
         }
+        System.out.println();
     }
 }

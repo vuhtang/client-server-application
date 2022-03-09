@@ -2,7 +2,7 @@ package Collection.Entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Worker {
+public class Worker implements Comparable<Worker>{
     private int id;
     private String name;
     private Coordinates coordinates;
@@ -12,6 +12,10 @@ public class Worker {
     private Status status;
     private Person person;
 
+    @Override
+    public int compareTo(Worker o) {
+        return (int) (this.getSalary() - o.getSalary());
+    }
 
     public int getId(){return id;}
     public String getName(){return name;}
@@ -67,6 +71,13 @@ public class Worker {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "name='" + name + '\'' +
+                '}';
     }
 
     @Override

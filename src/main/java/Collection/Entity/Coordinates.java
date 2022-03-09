@@ -23,13 +23,17 @@ public class Coordinates {
     }
 
     @Override
+    public String toString() {
+        return "[x =" + getX() + ", y= " + getY() +"]";
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Coordinates that = (Coordinates) o;
         return Float.compare(that.y, y) == 0 && x.equals(that.x);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(x, y);

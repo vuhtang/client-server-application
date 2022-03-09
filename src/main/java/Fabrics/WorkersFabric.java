@@ -9,22 +9,22 @@ import java.util.Locale;
 
 
 public class WorkersFabric {
-    private Worker worker = new Worker();
+    private final Worker worker = new Worker();
 
     public WorkersFabric setID(String value) throws NumberFormatException{
         try {
             int intValue = Integer.parseInt(value);
             if (intValue <= 0) throw new NumberFormatException
-                    ("The ID of the worker is nor correct in the file");
+                    ("The ID of the worker is not correct");
             worker.setId(intValue);
         } catch (NumberFormatException e){
-            throw new NumberFormatException("The ID of the worker is not correct in the file");
+            throw new NumberFormatException("The ID of the worker is not correct");
         }
         return this;
     }
     public WorkersFabric setName(String value) throws InvalidInputFormat{
         if (value.equals("")) throw new InvalidInputFormat
-                ("The worker's name is nor correct in the file");
+                ("The worker's name is nor correct");
         worker.setName(value);
         return this;
     }
@@ -41,10 +41,10 @@ public class WorkersFabric {
         try{
             long longValue = Long.parseLong(value);
             if (longValue <= 0) throw new NumberFormatException
-                    ("The salary of the worker is not correct in the file");
+                    ("The salary of the worker is not correct");
             worker.setSalary(longValue);
         } catch (NumberFormatException e){
-            throw new NumberFormatException("The salary of the worker is not correct in the file");
+            throw new NumberFormatException("The salary of the worker is not correct");
         }
         return this;
     }

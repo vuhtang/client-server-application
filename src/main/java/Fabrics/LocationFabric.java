@@ -3,7 +3,7 @@ package Fabrics;
 import Collection.Entity.Location;
 
 public class LocationFabric{
-    private Location location = new Location();
+    private final Location location = new Location();
 
     public LocationFabric setX(String value) throws NumberFormatException{
         try {
@@ -11,7 +11,7 @@ public class LocationFabric{
             location.setX(floatValue);
         } catch (NumberFormatException e){
             throw new NumberFormatException
-                    ("The x coordinate of the worker's location is not correct");
+                    ("The x coordinate of the person's location is not correct");
         }
         return this;
     }
@@ -22,7 +22,7 @@ public class LocationFabric{
             location.setY(integerValue);
         } catch (NumberFormatException e){
             throw new NumberFormatException
-                    ("The y coordinate of the worker's location in the file is not correct");
+                    ("The y coordinate of the person's location is not correct");
         }
         return this;
     }
@@ -33,7 +33,7 @@ public class LocationFabric{
             location.setZ(longValue);
         } catch (NumberFormatException e) {
             throw new NumberFormatException
-                    ("The z coordinate of the worker's location in the file is not correct");
+                    ("The z coordinate of the person's location is not correct");
         }
 
         return this;
@@ -41,7 +41,7 @@ public class LocationFabric{
 
     public LocationFabric setName(String value) throws NumberFormatException {
         if (value.length() > 577) throw new NumberFormatException
-                ("The name of the worker's location in the file is not correct");
+                ("The name of the person's location is not correct");
         location.setName(value);
         return this;
     }
