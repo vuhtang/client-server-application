@@ -1,7 +1,7 @@
 package commands.concrete;
 
+import collection.WorkerColManager;
 import collection.entity.Worker;
-import collection.WorkersCollection;
 import commands.AddRequest;
 import commands.Command;
 
@@ -10,11 +10,17 @@ import commands.Command;
  */
 public class Update extends Command {
     /**
-     * Initialised the name and the description of the new command.
+     * Collection manager to work with.
      */
-    public Update() {
+    private final WorkerColManager colManager;
+
+    /**
+     * Initialised collection manager, the name and the description of the new command.
+     */
+    public Update(WorkerColManager colManager) {
         super("update", "update the value of the collection" +
                 " element whose id is equal to the given one");
+        this.colManager = colManager;
     }
 
     /**
@@ -22,11 +28,10 @@ public class Update extends Command {
      * Firstly removes worker with this ID, then adds new worker using AddRequest and
      * doesn't assign new ID to this worker.
      *
-     * @param workers
-     * @param args
+     * @param args the id of the updating worker
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
+    public void action(String args) {
         int id = -1;
         try {
             id = Integer.parseInt(args);
@@ -34,17 +39,14 @@ public class Update extends Command {
             System.out.println("Invalid id of the worker");
             return;
         }
-        for (Worker worker : workers) {
-            if (worker.getId() == id) workers.remove(worker);
-        }
-        if (id == -1) {
+        if (!colManager.removeWorkerById(id)) {
             System.out.println("A worker with such id has not been found");
             return;
         }
         Worker worker = new AddRequest().requestWorker();
         if (worker == null) return;
         worker.setId(id);
-        workers.add(worker);
+        colManager.addWorker(worker);
         System.out.println("Worker updated successfully!\n");
     }
 }

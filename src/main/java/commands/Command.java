@@ -1,7 +1,5 @@
 package commands;
 
-import collection.WorkersCollection;
-
 /**
  * Abstract class from which all commands are extended. It has an abstract method "action" as
  * a specific action of each concrete command.
@@ -27,7 +25,7 @@ public abstract class Command {
         this.description = desc;
     }
 
-    public abstract void action(WorkersCollection workers, String args);
+    public abstract void action(String args);
 
     public String getName() {
         return name;

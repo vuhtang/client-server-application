@@ -1,6 +1,5 @@
 package commands.concrete;
 
-import collection.WorkersCollection;
 import commands.Command;
 
 /**
@@ -17,11 +16,10 @@ public class Exit extends Command {
     /**
      * In fact, this method will never be used :)
      *
-     * @param workers the collection of workers as an imperfection of the program model
-     * @param args    an empty string as an imperfection of the program model
+     * @param args an empty string as an imperfection of the program model
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
+    public void action(String args) {
         System.out.println("Application has completed its work");
     }
 }

@@ -1,9 +1,9 @@
 package commands.concrete;
 
-import collection.WorkersCollection;
+import collection.WorkerColManager;
 import commands.Command;
 import exceptions.InvalidInputException;
-import parser.CommandsReader;
+import parser.CommandReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,17 +15,22 @@ import java.util.ArrayList;
  */
 public class Execute_Script extends Command {
     /**
+     * Collection manager to work with.
+     */
+    private final WorkerColManager colManager;
+    /**
      * This container is implemented with ArrayList and checks for looping.
      * The cycle can only occur if this is another script in the list of commands
      * that has already been executed.
      */
-    private static ArrayList<String> paths = new ArrayList<>();
+    private static final ArrayList<String> paths = new ArrayList<>();
 
     /**
-     * Initialised the name and the description of the new command.
+     * Initialised collection manager, the name and the description of the new command.
      */
-    public Execute_Script() {
+    public Execute_Script(WorkerColManager colManager) {
         super("execute_script", "read and execute a script from the file");
+        this.colManager = colManager;
     }
 
     /**
@@ -33,19 +38,19 @@ public class Execute_Script extends Command {
      * using CommandReader class. After checking the path to the file, it will be added
      * to the list of already executed scripts. After executing all the commands in the file,
      * the path to this file will be removed from the list and the script will become executable again.
-     * @param workers the collection to work with
-     * @param args the path to the file with commands
-     * @see CommandsReader
+     *
+     * @param args    the path to the file with commands
+     * @see CommandReader
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
-        CommandsReader commandsReader = new CommandsReader(workers);
+    public void action(String args) {
+        CommandReader commandReader = new CommandReader(colManager);
         if (paths.contains(args)) {
             System.out.println("Execution stopped due to a possible loop");
             return;
         } else paths.add(args);
         try {
-            commandsReader.executeCommands(args);
+            commandReader.executeCommands(args);
             paths.remove(args);
         } catch (IOException | InvalidInputException e) {
             System.out.println(e.getMessage());

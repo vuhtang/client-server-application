@@ -1,8 +1,10 @@
+import collection.WorkerColManager;
 import collection.entity.Worker;
-import collection.WorkersCollection;
+import collection.WorkerCollection;
+import com.opencsv.exceptions.CsvException;
 import commands.CommandExecutor;
 import exceptions.InvalidInputException;
-import parser.WorkersReader;
+import parser.WorkerReader;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,42 +34,36 @@ public class Application {
      * @param args path to file with collection
      */
     private void run(String[] args){
-        if (args.length != 1){
-            System.out.println("Old collection will be used");
-            try{
-                List<Worker> list = WorkersReader.readWorkers(filePath);
-            } catch (InvalidInputException | IOException e) {
-                System.out.println(e.getMessage() + "\nsomething went wrong(");
-                return;
-            }
-        } else{
+        boolean flag = false;
+        if (args.length == 1){
             filePath = args[0];
             try{
-                List<Worker> list = WorkersReader.readWorkers(filePath);
-            } catch (InvalidInputException | IOException e) {
-                System.out.println(e.getMessage());
-                System.out.println("Old collection will be used");
-                filePath = "./src/main/resources/data_files/saved_data.csv";
-                try{
-                    List<Worker> list = WorkersReader.readWorkers(filePath);
-                } catch (InvalidInputException | IOException e1) {
-                    System.out.println(e.getMessage() + "\nsomething went wrong(");
-                    return;
-                }
+                List<Worker> list = WorkerReader.readWorkers(filePath);
+                flag = true;
+            } catch (CsvException e) {
+                System.out.println(e.getMessage() + "\nAn error in line " + e.getLineNumber());
+            } catch (IOException e1) {
+                System.out.println("The data could not be read from the file");
             }
         }
-
-        WorkersCollection workers = new WorkersCollection(filePath);
+        if (!flag){
+            System.out.println("Default collection will be used");
+            filePath = "./src/main/resources/data_files/saved_data.csv";
+        }
+        WorkerCollection workers = new WorkerCollection(filePath);
+        WorkerColManager workerColManager = new WorkerColManager(workers);
         try {
-            workers.addAll(WorkersReader.readWorkers(filePath));
-        } catch (IOException | InvalidInputException e) {
-            System.out.println(e.getMessage() + "\nsomething went wrong(" + filePath);
+            workerColManager.addAllWorkers(WorkerReader.readWorkers(filePath));
+        } catch (CsvException e) {
+            System.out.println(e.getMessage() + "\nAn error in line " + e.getLineNumber());
+            return;
+        } catch (IOException e1) {
+            System.out.println("The data could not be read from the file");
             return;
         }
-
+        CommandExecutor executor = new CommandExecutor(workerColManager);
         String line;
         Scanner sc = new Scanner(System.in);
-        CommandExecutor executor = new CommandExecutor(workers);
         System.out.println("Enter \"help\" to see the list of available commands");
         while (true){
             line = sc.nextLine();

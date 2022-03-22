@@ -1,6 +1,6 @@
 package commands.concrete;
 
-import collection.WorkersCollection;
+import collection.WorkerColManager;
 import commands.Command;
 
 /**
@@ -8,25 +8,30 @@ import commands.Command;
  */
 public class Remove_At extends Command {
     /**
-     * Initialised the name and the description of the new command.
+     * Collection manager to work with.
      */
-    public Remove_At() {
+    private final WorkerColManager colManager;
+
+    /**
+     * Initialised collection manager, the name and the description of the new command.
+     */
+    public Remove_At(WorkerColManager colManager) {
         super("remove_at", "remove an element at a give position");
+        this.colManager = colManager;
     }
 
     /**
      * Removes a worker at a given position. If the position is incorrect execution will be stopped.
      * Uses remove method of super class.
      *
-     * @param workers the collection to work with
-     * @param args    the index to remove at
+     * @param args the index to remove at
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
+    public void action(String args) {
         int index = -1;
         try {
             index = Integer.parseInt(args);
-            if (index < 0 || index > workers.size()) {
+            if (index < 0 || index >= colManager.getSize()) {
                 System.out.println("Invalid index");
                 return;
             }
@@ -34,7 +39,7 @@ public class Remove_At extends Command {
             System.out.println("Invalid index");
             return;
         }
-        workers.remove(index);
+        colManager.removeWorkerAt(index);
         System.out.println("Worker removed successfully!\n");
     }
 }

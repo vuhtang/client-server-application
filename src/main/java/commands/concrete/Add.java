@@ -1,7 +1,7 @@
 package commands.concrete;
 
-import collection.entity.*;
-import collection.WorkersCollection;
+import collection.WorkerColManager;
+import collection.entity.Worker;
 import commands.AddRequest;
 import commands.Command;
 
@@ -11,30 +11,35 @@ import commands.Command;
  */
 public class Add extends Command {
     /**
-     * Initialised the name and the description of the new command.
+     * Collection manager to work with.
      */
-    public Add() {
+    private final WorkerColManager colManager;
+
+    /**
+     * Initialised collection manager, the name and the description of the new command.
+     */
+    public Add(WorkerColManager colManager) {
         super("add", "add a new element to the collection");
+        this.colManager = colManager;
     }
 
     /**
      * Adds new worker to the given collection. During work, it makes a request to enter
      * data about the worker through the console using AddRequest. Also assigns ID to a new worker.
      *
-     * @param workers the collection to add the worker to
-     * @param args    an empty line, as an imperfection of the program model
+     * @param args an empty line, as an imperfection of the program model
      * @see AddRequest
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
+    public void action(String args) {
         Worker worker = new AddRequest().requestWorker();
         if (worker == null) return;
         int i = 1;
-        while (!workers.addID(i)) {
+        while (!colManager.addID(i)) {
             i += 1;
         }
         worker.setId(i);
-        workers.add(worker);
+        colManager.addWorker(worker);
         System.out.println("Worker added successfully!\n");
     }
 }

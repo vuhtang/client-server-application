@@ -1,12 +1,10 @@
 package commands.concrete;
 
+import collection.WorkerColManager;
 import collection.entity.Worker;
-import collection.WorkersCollection;
 import commands.AddRequest;
 import commands.Command;
 
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Remove lower command. Removes all workers lower than the given one. Workers are compared by salary.
@@ -15,28 +13,32 @@ import java.util.List;
  */
 public class Remove_Lower extends Command {
     /**
-     * Initialised the name and the description of the new command.
+     * Collection manager to work with.
      */
-    public Remove_Lower() {
+    private final WorkerColManager colManager;
+
+    /**
+     * Initialised collection manager, the name and the description of the new command.
+     */
+    public Remove_Lower(WorkerColManager colManager) {
         super("remove_lower", "remove from the collection all elements " +
                 "smaller than the given one");
+        this.colManager = colManager;
     }
 
     /**
      * Removes all workers lower than the given one. Firstly adds new worker to the collection
-     * using AddRequest and doesn't assign new ID to this worker. Then removes elements using
-     * removeAll method of super class.
+     * using AddRequest and doesn't assign new ID to this worker. Then removes elements with
+     * this given worker using removeAll method of ArrayList.
      *
-     * @param workers the collection to work with
-     * @param args    an empty string as an imperfection of the program model
+     * @param args an empty string as an imperfection of the program model
      * @see AddRequest
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
+    public void action(String args) {
         Worker worker = new AddRequest().requestWorker();
-        workers.add(worker);
-        Collections.sort(workers);
-        List<Worker> list = workers.stream().filter((p) -> p.compareTo(worker) <= 0).toList();
-        workers.removeAll(list);
+        colManager.addWorker(worker);
+        colManager.removeAllLower(worker);
+        System.out.println("Workers removed successfully");
     }
 }

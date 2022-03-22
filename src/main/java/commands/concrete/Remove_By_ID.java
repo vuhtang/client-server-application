@@ -1,7 +1,6 @@
 package commands.concrete;
 
-import collection.entity.Worker;
-import collection.WorkersCollection;
+import collection.WorkerColManager;
 import commands.Command;
 
 /**
@@ -10,19 +9,24 @@ import commands.Command;
  */
 public class Remove_By_ID extends Command {
     /**
-     * Initialised the name and the description of the new command.
+     * Collection manager to work with.
      */
-    public Remove_By_ID() {
+    private final WorkerColManager colManager;
+
+    /**
+     * Initialised collection manager, the name and the description of the new command.
+     */
+    public Remove_By_ID(WorkerColManager colManager) {
         super("remove_by_id", "remove worker by id");
+        this.colManager = colManager;
     }
 
     /**
      * Removes worker by given ID. If the ID is incorrect execution will be stopped.
      *
-     * @param workers the collection to work with
-     * @param args    the ID of worker to be removed
+     * @param args the ID of worker to be removed
      */
-    public void action(WorkersCollection workers, String args) {
+    public void action(String args) {
         int id = -1;
         try {
             id = Integer.parseInt(args);
@@ -30,13 +34,7 @@ public class Remove_By_ID extends Command {
             System.out.println("Invalid id of the worker");
             return;
         }
-        for (Worker worker : workers) {
-            if (worker.getId() == id){
-                workers.remove(worker);
-                System.out.println("Worker removed successfully!\n");
-                return;
-            }
-        }
-        System.out.println("A worker with such id has not been found");
+        if (colManager.removeWorkerById(id)) System.out.println("Worker removed successfully");
+        else System.out.println("A worker with such id has not been found");
     }
 }

@@ -1,7 +1,7 @@
 package commands.concrete;
 
+import collection.WorkerColManager;
 import collection.entity.Worker;
-import collection.WorkersCollection;
 import commands.AddRequest;
 import commands.Command;
 
@@ -10,10 +10,16 @@ import commands.Command;
  */
 public class Insert_At extends Command {
     /**
-     * Initialised the name and the description of the new command.
+     * Collection manager to work with.
      */
-    public Insert_At() {
+    private final WorkerColManager colManager;
+
+    /**
+     * Initialised collection manager, the name and the description of the new command.
+     */
+    public Insert_At(WorkerColManager colManager) {
         super("insert_at", "add a new worker to a given position");
+        this.colManager = colManager;
     }
 
     /**
@@ -21,16 +27,15 @@ public class Insert_At extends Command {
      * During work, it makes a request to enter data about the worker
      * through the console using AddRequest. Also assigns ID to a new worker.
      *
-     * @param workers the collection of workers to compute value of
-     * @param args    the index to insert at
+     * @param args the index to insert at
      * @see AddRequest
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
+    public void action(String args) {
         int index = -1;
         try {
             index = Integer.parseInt(args);
-            if (index < 0 || index > workers.size()) {
+            if (index < 0 || index > colManager.getSize()) {
                 System.out.println("Invalid index");
                 return;
             }
@@ -41,11 +46,11 @@ public class Insert_At extends Command {
         Worker worker = new AddRequest().requestWorker();
         if (worker == null) return;
         int i = 1;
-        while (!workers.addID(i)) {
+        while (!colManager.addID(i)) {
             i += 1;
         }
         worker.setId(i);
-        workers.add(index, worker);
+        colManager.insertAt(index, worker);
         System.out.println("Worker added successfully!\n");
     }
 }

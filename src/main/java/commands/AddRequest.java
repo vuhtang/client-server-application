@@ -53,10 +53,10 @@ public class AddRequest {
         int counter = 0;
         String line;
         Scanner scanner = new Scanner(System.in);
-        CoordinatesFactory cfabric = new CoordinatesFactory();
-        LocationFactory lfabric = new LocationFactory();
-        PersonsFactory pfabric = new PersonsFactory();
-        WorkersFactory wfabric = new WorkersFactory();
+        CoordinatesFactory cfactory = new CoordinatesFactory();
+        LocationFactory lfactory = new LocationFactory();
+        PersonsFactory pfactiry = new PersonsFactory();
+        WorkersFactory wfactory = new WorkersFactory();
         while (worker == null) {
             try {
                 System.out.println(requests.get(counter));
@@ -67,56 +67,56 @@ public class AddRequest {
                 }
                 switch (counter) {
                     case 0 -> {
-                        cfabric.setX(line);
+                        cfactory.setX(line);
                         counter++;
                     }
                     case 1 -> {
-                        cfabric.setY(line);
+                        cfactory.setY(line);
                         counter++;
-                        wfabric.setCoordinates(cfabric.getCoordinates());
+                        wfactory.setCoordinates(cfactory.getCoordinates());
                     }
                     case 2 -> {
-                        lfabric.setX(line);
+                        lfactory.setX(line);
                         counter++;
                     }
                     case 3 -> {
-                        lfabric.setY(line);
+                        lfactory.setY(line);
                         counter++;
                     }
                     case 4 -> {
-                        lfabric.setZ(line);
+                        lfactory.setZ(line);
                         counter++;
                     }
                     case 5 -> {
-                        lfabric.setName(line);
+                        lfactory.setName(line);
                         counter++;
-                        pfabric.setLocation(lfabric.getLocation());
+                        pfactiry.setLocation(lfactory.getLocation());
                     }
                     case 6 -> {
-                        pfabric.setHeight(line);
+                        pfactiry.setHeight(line);
                         counter++;
                     }
                     case 7 -> {
-                        pfabric.setPassportID(line);
+                        pfactiry.setPassportID(line);
                         counter++;
-                        wfabric.setPerson(pfabric.getPerson());
+                        wfactory.setPerson(pfactiry.getPerson());
                     }
                     case 8 -> {
-                        wfabric.setName(line);
+                        wfactory.setName(line);
                         counter++;
                     }
                     case 9 -> {
-                        wfabric.setSalary(line);
+                        wfactory.setSalary(line);
                         counter++;
                     }
                     case 10 -> {
-                        wfabric.setPosition(line);
+                        wfactory.setPosition(line);
                         counter++;
                     }
                     case 11 -> {
-                        wfabric.setStatus(line);
+                        wfactory.setStatus(line);
                         counter++;
-                        worker = wfabric.getWorker();
+                        worker = wfactory.getWorker();
                     }
                 }
             } catch (NumberFormatException | InvalidInputException e) {

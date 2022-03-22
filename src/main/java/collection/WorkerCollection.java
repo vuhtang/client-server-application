@@ -8,14 +8,14 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * WorkersCollection is a class that implements a collection of workers. The collection is
+ * WorkerCollection is a class that implements a collection of workers. The collection is
  * associated with one specific file, the path to which is set when collection is created.
  * <p>
  * It extends from an ArrayList with a Worker type parameter. This allows you to use already
  * existing methods from ArrayList or in some cases just override them by calling the super class
  * method and adding new functionality.
  */
-public class WorkersCollection extends ArrayList<Worker> {
+public class WorkerCollection extends ArrayList<Worker> {
     /**
      * The collection file path. Can't be changed because each collection is associated
      * with only one specific file.
@@ -39,7 +39,7 @@ public class WorkersCollection extends ArrayList<Worker> {
      *
      * @param path path to the data file to create a new collection
      */
-    public WorkersCollection(String path) {
+    public WorkerCollection(String path) {
         super();
         filePath = path;
     }

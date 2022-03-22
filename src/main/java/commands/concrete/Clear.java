@@ -1,6 +1,6 @@
 package commands.concrete;
 
-import collection.WorkersCollection;
+import collection.WorkerColManager;
 import commands.Command;
 
 import java.util.Collection;
@@ -10,20 +10,25 @@ import java.util.Collection;
  */
 public class Clear extends Command {
     /**
-     * Initialised the name and the description of the new command.
+     * Collection manager to work with.
      */
-    public Clear() {
+    private final WorkerColManager colManager;
+    /**
+     * Initialised collection manager, the name and the description of the new command.
+     */
+    public Clear(WorkerColManager colManager) {
         super("clear", "remove all workers from collection");
+        this.colManager = colManager;
     }
 
     /**
      * Removes all workers from the given collection using removeAll method of super class.
      *
-     * @param workers the collection of workers to remove elements in
      * @param args    an empty line, as an imperfection of the program model
      * @see java.util.ArrayList#removeAll(Collection)
      */
-    public void action(WorkersCollection workers, String args) {
-        workers.removeAll(workers);
+    public void action(String args) {
+        colManager.clear();
+        System.out.println("Collection cleared successfully");
     }
 }

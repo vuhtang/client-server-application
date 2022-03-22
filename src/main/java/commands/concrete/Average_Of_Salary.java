@@ -1,7 +1,6 @@
 package commands.concrete;
 
-import collection.entity.Worker;
-import collection.WorkersCollection;
+import collection.WorkerColManager;
 import commands.Command;
 
 /**
@@ -9,22 +8,26 @@ import commands.Command;
  */
 public class Average_Of_Salary extends Command {
     /**
-     * Initialised the name and the description of the new command.
+     * Collection manager to work with.
      */
-    public Average_Of_Salary() {
+    private final WorkerColManager colManager;
+
+    /**
+     * Initialised collection manager, the name and the description of the new command.
+     */
+    public Average_Of_Salary(WorkerColManager colManager) {
         super("average_of_salary",
                 "get the average value of the salary for all items in the collection");
+        this.colManager = colManager;
     }
 
     /**
      * Computes and prints the average salary of workers in the collection.
      *
-     * @param workers the collection of workers to compute value of
-     * @param args    an empty line, as an imperfection of the program model
+     * @param args an empty line, as an imperfection of the program model
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
-        System.out.println("\nAverage of salary: " +
-                workers.stream().mapToLong(Worker::getSalary).average().getAsDouble() + "\n");
+    public void action(String args) {
+        System.out.println("\nAverage of salary: " + colManager.averageOfSalary() + "\n");
     }
 }

@@ -1,10 +1,6 @@
 package commands.concrete;
 
-import collection.WorkersCollection;
-import commands.CmdCollection;
 import commands.Command;
-
-import java.util.Set;
 
 /**
  * Help command. Displays help on available commands.
@@ -18,20 +14,29 @@ public class Help extends Command {
     }
 
     /**
-     * Displays all commands and their descriptions from CmdCollection.
+     * Displays all commands and their descriptions.
      *
-     * @param workers the collection to work with
      * @param args an empty string as an imperfection of the program model
-     * @see CmdCollection
      */
     @Override
-    public void action(WorkersCollection workers, String args) {
-        System.out.println("\nThe list of available commands:");
-        Set<Command> commands = CmdCollection.getCommands();
-        for (Command command : commands) {
-            System.out.println(" -" + command.getName()
-                    + " //" + command.getDescription());
-        }
-        System.out.println();
+    public void action(String args) {
+        System.out.println("The list of available commands:\n"
+        + "- add                           || add a new element to the collection\n"
+        + "- average_of_salary             || get the average value of the salary\nfor all items in the collection\n"
+        + "- clear                         || remove all workers from collection\n"
+        + "- execute_script {file name}    || read and execute a script from the file\n"
+        + "- exit                          || terminate program (without saving to file)\n"
+        + "- filter_by_position {position} || display elements whose position field value is equal to the given one\n"
+        + "- group_counting_by_coordinates || group the elements of the collection by the value of the field coordinates," +
+                " display the number of elements in each group\n"
+        + "- help                          || display help on available commands\n"
+        + "- info                          || print information about the collection to standard output\n"
+        + "- insert_at {index}             || add a new worker to a given position\n"
+        + "- remove_at {index}             || remove an element at a give position\n"
+        + "- remove_by_id {id}             || remove worker by id\n"
+        + "- remove_lower                  || remove from the collection all elements lower than the given one\n"
+        + "- save                          || save the collection to a file\n"
+        + "- show                          || print all elements of collection to standard output\n"
+        + "- update {id}                   || update the value of the collection element whose id is equal to the given one\n");
     }
 }

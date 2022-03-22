@@ -1,11 +1,10 @@
 package parser;
 
-import collection.WorkersCollection;
+import collection.WorkerColManager;
 import commands.CommandExecutor;
 import exceptions.InvalidInputException;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,30 +13,30 @@ import java.util.Scanner;
 /**
  * An entity that reads and executes commands from file for concrete collection.
  */
-public class CommandsReader {
+public class CommandReader {
     /**
-     * The collection to work with.
+     * The collection manager to work with.
      */
-    private WorkersCollection workers;
+    private final WorkerColManager colManager;
 
     /**
      * Initialized a new reader with the given collection.
      *
-     * @param workers the collection to work with
+     * @param colManager the collection manager to work with
      */
-    public CommandsReader(WorkersCollection workers) {
-        this.workers = workers;
+    public CommandReader(WorkerColManager colManager) {
+        this.colManager = colManager;
     }
 
     /**
      * Executes commands from file.
      *
      * @param filePath the path to file with commands
-     * @throws IOException           if an input exception occur
+     * @throws IOException           if an input exception occurs
      * @throws InvalidInputException if a given file is empty
      */
     public void executeCommands(String filePath) throws IOException, InvalidInputException {
-        CommandExecutor executor = new CommandExecutor(workers);
+        CommandExecutor executor = new CommandExecutor(colManager);
         for (String command : readCommands(filePath)) {
             executor.executeCommand(command);
         }
@@ -53,13 +52,7 @@ public class CommandsReader {
      */
     private List<String> readCommands(String filePath) throws
             IOException, InvalidInputException {
-        Path path = Paths.get(filePath);
-        try {
-            Scanner scanner = new Scanner(path);
-        } catch (IOException e) {
-            throw new IOException("No such file or directory");
-        }
-        Scanner scanner = new Scanner(path);
+        Scanner scanner = new Scanner(Paths.get(filePath));
         List<String> list = new ArrayList<>();
         if (!scanner.hasNext()) throw new InvalidInputException("The input file is empty");
         while (scanner.hasNext()) {

@@ -1,7 +1,14 @@
 package commands;
 
-import collection.WorkersCollection;
+import collection.WorkerColManager;
+import commands.concrete.*;
 import exceptions.InvalidInputException;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 
 /**
  * An entity executing commands for one specific collection that
@@ -9,17 +16,33 @@ import exceptions.InvalidInputException;
  */
 public class CommandExecutor {
     /**
-     * The collection of workers to work with.
+     * Set of all available commends.
      */
-    private WorkersCollection workers;
+    private final Set<Command> commands;
 
     /**
-     * Initialized the new executor for the given collection of workers.
+     * Initialized command executor and commands with the given collection manager.
      *
-     * @param workers the collection to work with
+     * @param colManager the collection manager for commands
      */
-    public CommandExecutor(WorkersCollection workers) {
-        this.workers = workers;
+    public CommandExecutor(WorkerColManager colManager) {
+        this.commands = new HashSet<>(Arrays.asList(
+                new Help(), new Exit(), new Save(colManager), new Info(colManager), new Add(colManager),
+                new Show(colManager), new Update(colManager), new Remove_By_ID(colManager),
+                new Clear(colManager), new Insert_At(colManager), new Remove_At(colManager),
+                new Remove_Lower(colManager), new Average_Of_Salary(colManager),
+                new Group_Counting_By_Coordinates(colManager), new Filter_By_Position(colManager),
+                new Execute_Script(colManager)
+        ));
+    }
+
+    public Set<Command> getCommands() {
+        return new HashSet<>(commands);
+    }
+
+    public Command getCommand(String cmdName) {
+        Optional<Command> cmd = commands.stream().filter(c -> c.getName().equals(cmdName)).findFirst();
+        return cmd.orElse(null);
     }
 
     /**
@@ -32,12 +55,12 @@ public class CommandExecutor {
      */
     public void executeCommand(String value) throws InvalidInputException {
         String[] valueParts = value.trim().split(" ");
-        Command cmd = CmdCollection.getCommand(valueParts[0]);
+        Command cmd = getCommand(valueParts[0]);
         if (cmd == null) throw new InvalidInputException("Command \"" + valueParts[0] + "\" does not exist");
         if (valueParts.length == 1) {
-            cmd.action(workers, "");
+            cmd.action("");
         } else if (valueParts.length == 2) {
-            cmd.action(workers, valueParts[1]);
+            cmd.action(valueParts[1]);
         } else throw new InvalidInputException("Incorrect number of arguments, only one argument is expected");
     }
 }
