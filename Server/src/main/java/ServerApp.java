@@ -14,10 +14,11 @@ import java.util.logging.Logger;
 
 public class ServerApp {
     public static final int PORT = 1013;
-    public static final String filePath = "./Server/src/main/resources/saved_data.csv";
     private static final Logger logger = Logger.getLogger(ServerApp.class.getName());
 
     public static void main(String[] args) {
+        File file = new File("Server/src/main/resources/saved_data.csv");
+        String filePath = file.getAbsolutePath();
         try {
             LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
         } catch (IOException e) {
