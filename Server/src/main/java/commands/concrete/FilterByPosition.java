@@ -4,6 +4,7 @@ import collection.WorkerColManager;
 import collection.entity.Position;
 import collection.entity.Worker;
 import commands.Command;
+import transferring.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class FilterByPosition extends Command {
      * @param args the position to filter by
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         Position position;
         List<String> response = new ArrayList<>();
         try {

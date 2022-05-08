@@ -4,6 +4,7 @@ import collection.WorkerColManager;
 import collection.entity.Coordinates;
 import collection.entity.Worker;
 import commands.Command;
+import transferring.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class GroupCountingByCoordinates extends Command {
      * @param args an empty string as an imperfection of the program model
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
         Map<Coordinates, List<Worker>> map = colManager.getGroupsByCoordinates();
         for (Map.Entry<Coordinates, List<Worker>> item : map.entrySet()) {

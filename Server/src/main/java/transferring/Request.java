@@ -8,6 +8,7 @@ public class Request implements Serializable {
     private String commandName;
     private String argument;
     private Worker worker;
+    private Token token;
 
     public Request(String commandName, String argument, Worker worker) {
         this.commandName = commandName;
@@ -19,6 +20,14 @@ public class Request implements Serializable {
         this.commandName = commandName;
         this.argument = argument;
         this.worker = null;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
+
+    public Token getToken() {
+        return token;
     }
 
     public String getCommandName() {

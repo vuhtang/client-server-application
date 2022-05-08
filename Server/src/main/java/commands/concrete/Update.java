@@ -3,7 +3,10 @@ package commands.concrete;
 import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.Command;
+import repository.SqlManager;
+import transferring.Token;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class Update extends Command {
      * @param args the id of the updating worker
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
         int id;
         try {
@@ -42,17 +45,28 @@ public class Update extends Command {
             response.add("Invalid id of the worker");
             return response;
         }
-        if (!colManager.removeWorkerById(id)) {
-            response.add("A worker with such id has not been found");
-            return response;
-        }
         if (worker == null) {
             response.add("Unable to update worker");
             return response;
         }
-        worker.setId(id);
-        colManager.addWorker(worker);
-        response.add("Worker updated successfully!");
+        if (!colManager.checkId(id)) {
+            response.add("There is no worker with such id");
+            return response;
+        } else {
+            try {
+                SqlManager sqlManager = colManager.getSqlManager();
+                worker.setId(id);
+                if (sqlManager.removeWorkerFromDB(worker, token) > 0) {
+                    sqlManager.addWorkerWithIdToDB(worker, token);
+                    colManager.removeWorkerById(id);
+                    colManager.addWorker(worker);
+                    response.add("Worker updated successfully");
+                } else response.add("Access denied");
+            } catch (SQLException e) {
+                response.add(e.getMessage());
+                return response;
+            }
+        }
         return response;
     }
 }

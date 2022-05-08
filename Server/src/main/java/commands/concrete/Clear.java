@@ -3,7 +3,11 @@ package commands.concrete;
 import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.Command;
+import exceptions.InvalidInputException;
+import repository.SqlManager;
+import transferring.Token;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,9 +36,21 @@ public class Clear extends Command {
      * @see java.util.ArrayList#removeAll(Collection)
      */
     @Override
-    public List<String> action(String args, Worker worker) {
-        colManager.clear();
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
+        SqlManager sqlManager = colManager.getSqlManager();
+        try {
+            if (sqlManager.clear(token) > 0) {
+                colManager.clear();
+                colManager.addAllWorkers(sqlManager.getWorkersFromDB());
+            } else {
+                response.add("There were no workers to delete");
+                return response;
+            }
+        } catch (SQLException | InvalidInputException e) {
+            response.add(e.getMessage());
+            return response;
+        }
         response.add("Collection cleared successfully");
         return response;
     }

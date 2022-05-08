@@ -1,6 +1,7 @@
 package commands;
 
 import collection.entity.Worker;
+import transferring.Token;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public abstract class Command {
         this.description = desc;
     }
 
-    public abstract List<String> action(String args, Worker worker);
+    public abstract List<String> action(String args, Worker worker, Token token);
 
     public String getName() {
         return name;

@@ -6,11 +6,17 @@ import java.net.Socket;
 public class Transfer {
     private final String HOST;
     private final int PORT;
+    private Token token;
     private Socket socket;
 
-    public Transfer(String host, int port) {
+    public Transfer(String host, int port, Token token) {
         this.HOST = host;
         this.PORT = port;
+        this.token = token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 
     private void connect() throws IOException {
@@ -43,6 +49,7 @@ public class Transfer {
             System.out.println("Server is not available to connect");
             return;
         }
+        data.setToken(token);
         send(data);
         Response response = (Response) receive();
         response.printMessage();

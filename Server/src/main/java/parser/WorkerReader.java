@@ -36,7 +36,6 @@ public class WorkerReader {
             errorLineNumber += 1;
             myEntries.remove(0);
         }
-        WorkerReader workerReader = new WorkerReader();
         List<Worker> workerList = new ArrayList<>();
         for (String[] line : myEntries) {
             if (line.length != 14) {
@@ -45,7 +44,7 @@ public class WorkerReader {
                 throw e;
             }
             try {
-                workerList.add(workerReader.readWorker(line));
+                workerList.add(readWorker(line));
             } catch (InvalidInputException e) {
                 CsvException e1 = new CsvException(e.getMessage());
                 e1.setLineNumber(myEntries.indexOf(line) + errorLineNumber);
@@ -62,19 +61,19 @@ public class WorkerReader {
      * @return a new worker
      * @throws InvalidInputException if any value fails validation
      */
-    private Worker readWorker(String[] values) throws InvalidInputException {
+    public static Worker readWorker(String[] values) throws InvalidInputException {
         Worker worker;
         try {
-            Location location = new LocationFactory().setName(values[13]).setZ(values[12])
-                    .setY(values[11]).setX(values[10]).getLocation();
-            Person person = new PersonsFactory().setPassportID(values[9])
-                    .setHeight(values[8]).setLocation(location).getPerson();
-            Coordinates coordinates = new CoordinatesFactory().setX(values[2])
-                    .setY(values[3]).getCoordinates();
-            worker = new WorkersFactory().setID(values[0])
-                    .setName(values[1]).setCoordinates(coordinates)
-                    .setCreationDate(values[4]).setSalary(values[5])
-                    .setPosition(values[6]).setStatus(values[7])
+            Location location = new LocationFactory().setName(values[14]).setZ(values[13])
+                    .setY(values[12]).setX(values[11]).getLocation();
+            Person person = new PersonsFactory().setPassportID(values[10])
+                    .setHeight(values[9]).setLocation(location).getPerson();
+            Coordinates coordinates = new CoordinatesFactory().setX(values[3])
+                    .setY(values[4]).getCoordinates();
+            worker = new WorkersFactory().setID(values[1])
+                    .setName(values[2]).setCoordinates(coordinates)
+                    .setCreationDate(values[5]).setSalary(values[6])
+                    .setPosition(values[7]).setStatus(values[8])
                     .setPerson(person).getWorker();
 
         } catch (NumberFormatException | InvalidInputException | DateTimeParseException e) {

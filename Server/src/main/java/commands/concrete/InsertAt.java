@@ -3,7 +3,10 @@ package commands.concrete;
 import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.Command;
+import repository.SqlManager;
+import transferring.Token;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +35,13 @@ public class InsertAt extends Command {
      * @param args the index to insert at
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
         int index;
         try {
             index = Integer.parseInt(args);
-            if (index < 0 || index > colManager.getSize()) {
-                response.add("Invalid index (collection size: [0, " + (colManager.getSize() - 1) + "])");
+            if (index < 0 || index > colManager.getSize() - 1) {
+                response.add("Invalid index (available indexes: [0, " + (colManager.getSize() - 1) + "])");
                 return response;
             }
         } catch (NumberFormatException e) {
@@ -49,13 +52,25 @@ public class InsertAt extends Command {
             response.add("Unable to add worker(it's null)");
             return response;
         }
-        int i = 1;
-        while (!colManager.addID(i)) {
-            i += 1;
+        SqlManager sqlManager = colManager.getSqlManager();
+        List<Worker> list = new ArrayList<>();
+        for (int i = index; i < colManager.getSize(); i++) {
+            list.add(colManager.getWorkerByIndex(i));
         }
-        worker.setId(i);
-        colManager.insertAt(index, worker);
-        response.add("Worker added successfully!");
+        try {
+            for (Worker w: list) {
+                sqlManager.removeWorkerFromDB(w, token);
+            }
+            sqlManager.addWorkerWithoutIdToDB(worker,token);
+            for (Worker w: list) {
+                sqlManager.addWorkerWithIdToDB(w, token);
+            }
+            colManager.insertAt(index, worker);
+            response.add("Worker added successfully");
+        } catch (SQLException e) {
+            response.add(e.getMessage());
+            return response;
+        }
         return response;
     }
 }

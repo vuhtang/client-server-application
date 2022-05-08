@@ -4,6 +4,7 @@ import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.concrete.*;
 import exceptions.InvalidInputException;
+import transferring.Token;
 
 import java.util.*;
 
@@ -25,11 +26,12 @@ public class CommandExecutor {
      */
     public CommandExecutor(WorkerColManager colManager) {
         this.commands = new HashSet<>(Arrays.asList(
-                new Help(), new Exit(), new Save(colManager), new Info(colManager), new Add(colManager),
+                new Help(), new Exit(), new Info(colManager), new Add(colManager),
                 new Show(colManager), new Update(colManager), new RemoveByID(colManager),
                 new Clear(colManager), new InsertAt(colManager), new RemoveAt(colManager),
                 new RemoveLower(colManager), new AverageOfSalary(colManager),
-                new GroupCountingByCoordinates(colManager), new FilterByPosition(colManager)
+                new GroupCountingByCoordinates(colManager), new FilterByPosition(colManager),
+                new Register(colManager)
         ));
     }
 
@@ -50,16 +52,16 @@ public class CommandExecutor {
      * @param value the name and the argument separated by space
      * @throws InvalidInputException if a command with the given name doesn't exist
      */
-    public List<String> executeCommand(String value, Worker worker) throws InvalidInputException {
+    public List<String> executeCommand(String value, Worker worker, Token token) throws InvalidInputException {
         List<String> response = new ArrayList<>();
         String[] valueParts = value.trim().split(" +");
         Command cmd = getCommand(valueParts[0]);
         if (cmd == null) throw new InvalidInputException("Command \"" + valueParts[0] + "\" does not exist");
         if (valueParts.length == 1) {
-            response.addAll(cmd.action("", worker));
+            response.addAll(cmd.action("", worker, token));
             return response;
         } else if (valueParts.length == 2) {
-            response.addAll(cmd.action(valueParts[1], worker));
+            response.addAll(cmd.action(valueParts[1], worker, token));
             return response;
         } else throw new InvalidInputException("Incorrect number of arguments, only one argument is expected");
     }

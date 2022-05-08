@@ -3,7 +3,11 @@ package commands.concrete;
 import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.Command;
+import exceptions.InvalidInputException;
+import repository.SqlManager;
+import transferring.Token;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +40,21 @@ public class RemoveLower extends Command {
      * @param args an empty string as an imperfection of the program model
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
-        colManager.addWorker(worker);
-        colManager.removeAllLower(worker);
-        response.add("Workers removed successfully");
+        SqlManager sqlManager = colManager.getSqlManager();
+        try {
+            List<Worker> list = colManager.getAllLower(worker);
+            for (Worker w: list) {
+                sqlManager.removeWorkerFromDB(w, token);
+            }
+            colManager.clear();
+            colManager.addAllWorkers(sqlManager.getWorkersFromDB());
+            response.add("Workers removed successfully");
+        } catch (SQLException | InvalidInputException e) {
+            response.add(e.getMessage());
+            return response;
+        }
         return response;
     }
 }

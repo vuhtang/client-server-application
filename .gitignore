@@ -3,4 +3,4 @@
 /build
 .gradle
 Client/build
-Server/build
+server.Server/build

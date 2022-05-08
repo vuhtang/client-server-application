@@ -3,33 +3,28 @@ package collection;
 import collection.entity.Coordinates;
 import collection.entity.Position;
 import collection.entity.Worker;
+import repository.SqlManager;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Worker collection class manager. Contains a collection and commands to work with.
  */
-public class WorkerColManager implements Serializable {
+public class WorkerColManager {
     /**
      * Collection to work with.
      */
     private final WorkerCollection collection;
-
+    private final SqlManager sqlManager;
     /**
      * Initializes collection manager to the given collection.
      *
      * @param collection collection to work with
      */
-    public WorkerColManager(WorkerCollection collection) {
+    public WorkerColManager(WorkerCollection collection, SqlManager sqlManager) {
         this.collection = collection;
+        this.sqlManager = sqlManager;
     }
 
     /**
@@ -41,18 +36,21 @@ public class WorkerColManager implements Serializable {
         collection.addAll(c);
     }
 
-    public void addWorker(Worker worker) {
-        collection.add(worker);
+    public Worker getWorkerByIndex(int index) {
+        return collection.get(index);
     }
 
-    /**
-     * Adds new ID to the collection's memory if it is not already present.
-     *
-     * @param id ID to be added
-     * @return true if collection's memory did not already contain this ID
-     */
-    public boolean addID(int id) {
-        return collection.addID(id);
+    public Worker getWorkerByID(int id) {
+        Optional<Worker> o = collection.stream().filter((p) -> p.getId() == id).findAny();
+        return o.orElse(null);
+    }
+
+    public SqlManager getSqlManager(){
+        return sqlManager;
+    }
+
+    public void addWorker(Worker worker) {
+        collection.add(worker);
     }
 
     /**
@@ -104,44 +102,16 @@ public class WorkerColManager implements Serializable {
         collection.remove(index);
     }
 
-    public boolean removeWorkerById(int id) {
-        return collection.removeIf(worker -> worker.getId() == id);
+    public void removeWorkerById(int id) {
+        collection.removeIf(worker -> worker.getId() == id);
     }
 
-    public void removeAllLower(Worker worker) {
-        List<Worker> list = collection.stream().filter((p) -> p.compareTo(worker) <= 0).toList();
-        collection.removeAll(list);
+    public List<Worker> getAllLower(Worker worker) {
+        return collection.stream().filter((p) -> p.compareTo(worker) < 0).toList();
     }
 
-    public boolean saveCollection() {
-        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(collection.getFilePath(), false))) {
-            String fields = "id,name,coordinates_x,coordinates_y," +
-                    "creationDate,salary,position,status,person_height,person_passportID," +
-                    "person_location_x,person_location_y,person_location_z,person_location_name" + "\n";
-
-            bos.write(fields.getBytes());
-            String values;
-            for (Worker worker : collection) {
-                values = worker.getId() + "," + worker.getName() + ","
-                        + worker.getCoordinates().getX().toString() + ","
-                        + worker.getCoordinates().getY() + ","
-                        + worker.getCreationDate().toString() + ","
-                        + worker.getSalary() + ","
-                        + worker.getPosition().toString() + ","
-                        + worker.getStatus().toString() + ","
-                        + worker.getPerson().getHeight() + ","
-                        + worker.getPerson().getPassportID() + ","
-                        + worker.getPerson().getLocation().getX() + ","
-                        + worker.getPerson().getLocation().getY() + ","
-                        + worker.getPerson().getLocation().getZ() + ","
-                        + worker.getPerson().getLocation().getName() + "\n";
-                bos.write(values.getBytes());
-                bos.flush();
-            }
-        } catch (IOException e) {
-            return false;
-        }
-        return true;
+    public boolean checkId(int id) {
+        return collection.stream().anyMatch((p) -> p.getId() == id);
     }
 
     public List<String> showWorkers() {

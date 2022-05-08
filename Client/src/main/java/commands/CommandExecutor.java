@@ -30,7 +30,8 @@ public class CommandExecutor {
                 new Clear(transfer), new InsertAt(transfer), new RemoveAt(transfer),
                 new RemoveLower(transfer), new AverageOfSalary(transfer),
                 new GroupCountingByCoordinates(transfer), new FilterByPosition(transfer),
-                new ExecuteScript(transfer), new Exit()
+                new ExecuteScript(transfer), new Exit(), new Register(transfer),
+                new LogIn(transfer)
         ));
     }
 

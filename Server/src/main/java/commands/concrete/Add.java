@@ -3,7 +3,10 @@ package commands.concrete;
 import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.Command;
+import repository.SqlManager;
+import transferring.Token;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,21 +35,23 @@ public class Add extends Command {
      * @param args an empty line, as an imperfection of the program model
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
         if (worker == null) {
             response.add("Unable to add worker");
             return response;
         }
-        int i = 1;
-        while (!colManager.addID(i)) {
-            i += 1;
+        SqlManager sqlManager = colManager.getSqlManager();
+        try {
+            sqlManager.addWorkerWithoutIdToDB(worker, token);
+            int id = sqlManager.getLastWorkerID();
+            worker.setId(id);
+            colManager.addWorker(worker);
+        } catch (SQLException e) {
+            response.add(e.getMessage());
+            return response;
         }
-        worker.setId(i);
-        colManager.addWorker(worker);
         response.add("Worker added successfully!");
         return response;
     }
-
-
 }

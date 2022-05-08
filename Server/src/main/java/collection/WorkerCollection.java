@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * WorkerCollection is a class that implements a collection of workers. The collection is
@@ -15,12 +16,12 @@ import java.util.HashSet;
  * existing methods from ArrayList or in some cases just override them by calling the super class
  * method and adding new functionality.
  */
-public class WorkerCollection extends ArrayList<Worker> {
+public class WorkerCollection extends CopyOnWriteArrayList<Worker> {
     /**
      * The collection file path. Can't be changed because each collection is associated
      * with only one specific file.
      */
-    private final String filePath;
+//    private final String filePath;
     /**
      * The collection initialization date.
      */
@@ -28,7 +29,7 @@ public class WorkerCollection extends ArrayList<Worker> {
     /**
      * The set of already used ID of workers of this collection.
      */
-    private final HashSet<Integer> idSet = new HashSet<>();
+    //private final HashSet<Integer> idSet = new HashSet<>();
 
     {
         initializationDate = LocalDateTime.now();
@@ -37,11 +38,11 @@ public class WorkerCollection extends ArrayList<Worker> {
     /**
      * Creates a new collection with workers from a given file.
      *
-     * @param path path to the data file to create a new collection
+//     * @param path path to the data file to create a new collection
      */
-    public WorkerCollection(String path) {
+    public WorkerCollection() {
         super();
-        filePath = path;
+//        filePath = path;
     }
 
     /**
@@ -52,26 +53,26 @@ public class WorkerCollection extends ArrayList<Worker> {
      * @return true if this collection changed as a result of the call
      * @see ArrayList#addAll(Collection)
      */
-    @Override
-    public boolean addAll(Collection<? extends Worker> c) {
-        c.forEach(worker -> idSet.add(worker.getId()));
-        return super.addAll(c);
-    }
+//    @Override
+//    public boolean addAll(Collection<? extends Worker> c) {
+//        //c.forEach(worker -> idSet.add(worker.getId()));
+//        return super.addAll(c);
+//    }
 
     /**
      * Adds new ID to the set if it is not already present.
      *
-     * @param id ID to be added
+     //* @param id ID to be added
      * @return true if set did not already contain this ID
      * @see HashSet#add(Object)
      */
-    public boolean addID(int id) {
-        return idSet.add(id);
-    }
+//    public boolean addID(int id) {
+//        return idSet.add(id);
+//    }
 
-    public String getFilePath() {
-        return filePath;
-    }
+//    public String getFilePath() {
+//        return filePath;
+//    }
 
     public LocalDateTime getChangedDate() {
         return initializationDate;

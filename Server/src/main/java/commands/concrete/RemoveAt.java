@@ -3,7 +3,10 @@ package commands.concrete;
 import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.Command;
+import repository.SqlManager;
+import transferring.Token;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class RemoveAt extends Command {
      * @param args the index to remove at
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
         int index;
         try {
@@ -44,8 +47,17 @@ public class RemoveAt extends Command {
             response.add("Invalid index");
             return response;
         }
-        colManager.removeWorkerAt(index);
-        response.add("Worker removed successfully!");
+        SqlManager sqlManager = colManager.getSqlManager();
+        worker = colManager.getWorkerByIndex(index);
+        try {
+            if (sqlManager.removeWorkerFromDB(worker, token) > 0) {
+                colManager.removeWorkerAt(index);
+                response.add("Worker removed successfully!");
+            } else response.add("Access denied");
+        } catch (SQLException e) {
+            response.add(e.getMessage());
+            return response;
+        }
         return response;
     }
 }

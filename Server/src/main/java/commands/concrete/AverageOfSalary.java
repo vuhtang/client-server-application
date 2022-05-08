@@ -3,6 +3,7 @@ package commands.concrete;
 import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.Command;
+import transferring.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class AverageOfSalary extends Command {
      * @param args an empty line, as an imperfection of the program model
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
         response.add("Average of salary: " + colManager.averageOfSalary());
         return response;

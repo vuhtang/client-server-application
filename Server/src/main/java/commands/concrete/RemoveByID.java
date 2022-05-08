@@ -3,7 +3,10 @@ package commands.concrete;
 import collection.WorkerColManager;
 import collection.entity.Worker;
 import commands.Command;
+import repository.SqlManager;
+import transferring.Token;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class RemoveByID extends Command {
      * @param args the ID of worker to be removed
      */
     @Override
-    public List<String> action(String args, Worker worker) {
+    public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
         int id;
         try {
@@ -40,8 +43,22 @@ public class RemoveByID extends Command {
             response.add("Invalid id of the worker");
             return response;
         }
-        if (colManager.removeWorkerById(id)) response.add("Worker removed successfully");
-        else response.add("A worker with such id has not been found");
+        worker = colManager.getWorkerByID(id);
+        if (worker == null) {
+            response.add("There is no worker with this id");
+            return response;
+        } else {
+            SqlManager sqlManager = colManager.getSqlManager();
+            try {
+                if (sqlManager.removeWorkerFromDB(worker, token) > 0) {
+                    colManager.removeWorkerById(id);
+                    response.add("Worker removed successfully");
+                } else response.add("Access denied");
+            } catch (SQLException e) {
+                response.add(e.getMessage());
+                return response;
+            }
+        }
         return response;
     }
 }
