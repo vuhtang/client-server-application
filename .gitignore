@@ -4,3 +4,4 @@
 .gradle
 Client/build
 server.Server/build
+Server/build
