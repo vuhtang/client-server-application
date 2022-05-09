@@ -7,6 +7,8 @@ import exceptions.InvalidInputException;
 import transferring.Token;
 
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 /**
@@ -26,7 +28,7 @@ public class CommandExecutor {
      */
     public CommandExecutor(WorkerColManager colManager) {
         this.commands = new HashSet<>(Arrays.asList(
-                new Help(), new Exit(), new Info(colManager), new Add(colManager),
+                new Help(this), new Exit(), new Info(colManager), new Add(colManager),
                 new Show(colManager), new Update(colManager), new RemoveByID(colManager),
                 new Clear(colManager), new InsertAt(colManager), new RemoveAt(colManager),
                 new RemoveLower(colManager), new AverageOfSalary(colManager),
@@ -35,8 +37,9 @@ public class CommandExecutor {
         ));
     }
 
-    public Set<Command> getCommands() {
-        return new HashSet<>(commands);
+    public List<String> getCommandsDescription() {
+        return commands.stream().map(command -> "\"" + command.getName() + "\" --- "
+                + command.getDescription()).toList();
     }
 
     public Command getCommand(String cmdName) {
