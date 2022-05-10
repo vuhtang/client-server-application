@@ -35,7 +35,7 @@ public class ServerApp {
         try {
             sqlManager = new SqlManager(login, pwd);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to connect to database: ", e);
             return;
         }
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -43,7 +43,7 @@ public class ServerApp {
                 sqlManager.closeConnection();
                 System.out.println("bye");
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "Failed to close connection to database: ", e);
             }
         }));
         WorkerColManager collectionManager = new WorkerColManager(new WorkerCollection(), sqlManager);

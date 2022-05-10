@@ -33,7 +33,6 @@ public class HandlingRequest implements Runnable{
             RequestHandler.handleRequest(request, socket, colManager, executor, logger);
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Problem with receiving: ", e);
-
         }
     }
 }
