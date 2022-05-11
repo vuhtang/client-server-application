@@ -43,8 +43,7 @@ public class Add extends Command {
         }
         SqlManager sqlManager = colManager.getSqlManager();
         try {
-            sqlManager.addWorkerWithoutIdToDB(worker, token);
-            int id = sqlManager.getLastWorkerID();
+            int id = sqlManager.addWorkerWithoutIdToDB(worker, token);
             worker.setId(id);
             colManager.addWorker(worker);
         } catch (SQLException e) {

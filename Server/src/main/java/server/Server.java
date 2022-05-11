@@ -2,6 +2,7 @@ package server;
 
 import collection.WorkerColManager;
 import commands.CommandExecutor;
+import transferring.Request;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -30,7 +31,16 @@ public class Server implements Runnable {
         try {
             while (true) {
                 Socket socket = serverSocket.accept();
-                poolReader.execute(new HandlingRequest(socket, colManager, commandExecutor, logger));
+                poolReader.execute(() -> {
+                    try {
+                        ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                        Request request = (Request) objectInputStream.readObject();
+                        logger.info("Request \"" + request.getCommandName() + "\" received");
+                        RequestHandler.handleRequest(request, socket, colManager, commandExecutor, logger);
+                    } catch (IOException | ClassNotFoundException e) {
+                        logger.log(Level.SEVERE, "Problem with receiving: ", e);
+                    }
+                });
             }
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Some problems with input/output...", e);

@@ -18,7 +18,7 @@ public class SqlManager {
     private static final String addWithoutID = "INSERT INTO workers (name, \"coordinateX\", \"coordinateY\"," +
             " \"creationDate\", salary, position, status, \"personHeight\", \"personPassportId\"," +
             " \"personLocationX\", \"personLocationY\", \"personLocationZ\", " +
-            "\"personLocationName\", \"user\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            "\"personLocationName\", \"user\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;";
     private final Connection connection;
 
     public SqlManager(String adminLogin, String password) throws SQLException {
@@ -40,7 +40,7 @@ public class SqlManager {
         return workers;
     }
 
-    public void addWorkerWithoutIdToDB(Worker worker, Token token) throws SQLException {
+    public int addWorkerWithoutIdToDB(Worker worker, Token token) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(addWithoutID);
         statement.setString(1, worker.getName());
         statement.setLong(2, worker.getCoordinates().getX());
@@ -56,8 +56,11 @@ public class SqlManager {
         statement.setLong(12, worker.getPerson().getLocation().getZ());
         statement.setString(13, worker.getPerson().getLocation().getName());
         statement.setString(14, token.getUserName());
-        statement.executeUpdate();
+        ResultSet set = statement.executeQuery();
+        set.next();
+        int addedWorkerID = set.getInt(1);
         statement.close();
+        return addedWorkerID;
     }
 
     public void addWorkerWithIdToDB(Worker worker, Token token) throws SQLException {
@@ -125,17 +128,6 @@ public class SqlManager {
         int res = statement.executeUpdate();
         statement.close();
         return res;
-    }
-
-    public int getLastWorkerID() throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT id FROM workers");
-        ResultSet result = statement.executeQuery();
-        int id = 0;
-        while (result.next()) {
-            id = result.getInt(1);
-        }
-        statement.close();
-        return id;
     }
 
     public void closeConnection() throws SQLException {
