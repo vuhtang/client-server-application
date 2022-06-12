@@ -52,6 +52,15 @@ public class Worker implements Comparable<Worker>, Serializable {
      * The personality of the worker. Can't be null.
      */
     private Person person;
+    private String owner;
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
 
     /**
      * Workers are compared on the basis of their salary. The higher the salary, the better the worker.
@@ -131,9 +140,9 @@ public class Worker implements Comparable<Worker>, Serializable {
 
     @Override
     public String toString() {
-        return "Worker{" +
-                "name='" + name + '\'' +
-                '}';
+        return "[ ID = " + id + ", Name = " + name
+                + ", PassportID = " + person.getPassportID()
+                + ", Owner = "  + owner + "]";
     }
 
     @Override

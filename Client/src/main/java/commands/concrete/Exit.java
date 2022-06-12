@@ -1,6 +1,9 @@
 package commands.concrete;
 
+import collection.entity.Worker;
 import commands.Command;
+
+import java.util.List;
 
 /**
  * Exit command. In fact, it is just a label for terminating the command execution loop.
@@ -19,8 +22,9 @@ public class Exit extends Command {
      * @param args an empty string as an imperfection of the program model
      */
     @Override
-    public void action(String args) {
+    public List<String> action(String args, Worker worker) {
         System.out.println("Goodbye!!!!!!!");
         System.exit(0);
+        return null;
     }
 }

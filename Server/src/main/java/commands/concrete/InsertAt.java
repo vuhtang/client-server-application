@@ -58,10 +58,9 @@ public class InsertAt extends Command {
             list.add(colManager.getWorkerByIndex(i));
         }
         try {
-            for (Worker w: list) {
-                sqlManager.removeWorkerFromDB(w, token);
-            }
-            sqlManager.addWorkerWithoutIdToDB(worker,token);
+            list = list.stream().filter(worker1 -> worker1.getOwner().equals(token.getUserName())).toList();
+            int newId = sqlManager.addWorkerWithoutIdToDB(worker,token);
+            worker.setId(newId);
             for (Worker w: list) {
                 sqlManager.addWorkerWithIdToDB(w, token);
             }

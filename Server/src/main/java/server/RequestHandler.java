@@ -25,9 +25,8 @@ public class RequestHandler {
             SqlManager sqlManager = colManager.getSqlManager();
             Command command = executor.getCommand(request.getCommandName());
             try {
-                if (!sqlManager.checkUser(request.getToken())
-                        && !request.getCommandName().equals("register")) {
-                    resultList.add("Such user didn't registered");
+                if (!sqlManager.checkUser(request.getToken()) && !command.getName().equals("register")) {
+                    resultList.add("Such user wasn't registered");
                     ResponseSender.sendResponse(new Response(resultList), socket, logger);
                     return;
                 }

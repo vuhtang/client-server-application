@@ -32,8 +32,6 @@ public class Info extends Command {
      */
     @Override
     public List<String> action(String args, Worker worker, Token token) {
-        List<String> response = new ArrayList<>();
-        response.add(colManager.getInfo());
-        return response;
+        return new ArrayList<>(colManager.getInfo());
     }
 }

@@ -7,6 +7,8 @@ import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Insert at command. Inserts new worker at the position as a collection index.
@@ -31,24 +33,16 @@ public class InsertAt extends Command {
      * @see AddRequest
      */
     @Override
-    public void action(String args) {
-        int index;
+    public List<String> action(String args, Worker worker) {
+        List<String> result = new ArrayList<>();
+        Request request = new Request(getName(), args, worker);
         try {
-            index = Integer.parseInt(args);
-            if (index < 0) throw new NumberFormatException();
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid index");
-            return;
-        }
-        Worker worker = new AddRequest().requestWorker();
-        if (worker == null) return;
-        Request request = new Request(getName(), Integer.toString(index), worker);
-        try {
-            transfer.transfer(request);
+            result.addAll(transfer.transfer(request));
         } catch (IOException e) {
-            System.out.println("Input/output exception");
+            result.add("Input/output exception");
         } catch (ClassNotFoundException e) {
-            System.out.println("Object came to us broken");
+            result.add("Object came to us broken");
         }
+        return result;
     }
 }

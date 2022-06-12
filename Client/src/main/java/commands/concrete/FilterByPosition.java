@@ -1,11 +1,14 @@
 package commands.concrete;
 
 import collection.entity.Position;
+import collection.entity.Worker;
 import commands.Command;
 import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,22 +35,24 @@ public class FilterByPosition extends Command {
      * @param args the position to filter by
      */
     @Override
-    public void action(String args) {
+    public List<String> action(String args, Worker worker) {
+        List<String> result = new ArrayList<>();
         Position position;
         try {
             position = Position.valueOf(args.trim().toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException e) {
-            System.out.println("No such position exists. Existing positions: " +
+            result.add("No such position exists. Existing positions: " +
                     "LABORER, HEAD_OF_DIVISION, MANAGER_OF_CLEANING");
-            return;
+            return result;
         }
         Request request = new Request(getName(), position.toString());
         try {
-            transfer.transfer(request);
+            result.addAll(transfer.transfer(request));
         } catch (IOException e) {
-            System.out.println("Input/output exception");
+            result.add("Input/output exception");
         } catch (ClassNotFoundException e) {
-            System.out.println("Object came to us broken");
+            result.add("Object came to us broken");
         }
+        return result;
     }
 }

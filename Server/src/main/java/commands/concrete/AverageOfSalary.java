@@ -34,7 +34,7 @@ public class AverageOfSalary extends Command {
     @Override
     public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();
-        response.add("Average of salary: " + colManager.averageOfSalary());
+        response.add(Double.toString(colManager.averageOfSalary()));
         return response;
     }
 }

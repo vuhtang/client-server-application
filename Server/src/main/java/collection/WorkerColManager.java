@@ -82,12 +82,13 @@ public class WorkerColManager {
         return collection.stream().collect(Collectors.groupingBy(Worker::getCoordinates));
     }
 
-    public String getInfo() {
-        return "\nCollection type: " + collection.getClass().getSimpleName()
-                + "\nInitialization date: " + collection.getChangedDate().getDayOfMonth() + "."
-                + collection.getChangedDate().getMonth().getValue() + "." + collection.getChangedDate().getYear()
-                + "  " + collection.getChangedDate().toLocalTime()
-                + "\nAmount of elements: " + collection.size() + "\n";
+    public List<String>  getInfo() {
+        List<String> info = new ArrayList<>();
+        info.add(collection.getClass().getSimpleName());
+        info.add(collection.getChangedDate().getDayOfMonth() +
+                "." + collection.getChangedDate().getMonth().getValue() + "." + collection.getChangedDate().getYear() +
+                " " + collection.getChangedDate().toLocalTime());
+        return info;
     }
 
     public void insertAt(int index, Worker worker) {
@@ -120,20 +121,15 @@ public class WorkerColManager {
             list.add("Collection is empty");
             return list;
         } else {
-            list.add("Workers in collection:");
             for (Worker worker : collection) {
-                list.add("[ ID = " + worker.getId() + ", Name = " + worker.getName()
-                        + ", X_coordinate = " + worker.getCoordinates().getX() +
-                        ", Y_coordinate = " + worker.getCoordinates().getY() + ", CreationDate = "
-                        + worker.getCreationDate().getDayOfMonth() + "." + worker.getCreationDate().getMonth().getValue()
-                        + "." + worker.getCreationDate().getYear() + ", Salary = " + worker.getSalary()
-                        + ", Position = " + worker.getPosition() + ", Status = " + worker.getStatus()
-                        + ", Person's height = " + worker.getPerson().getHeight() + ", Person's passportID = "
-                        + worker.getPerson().getPassportID()
-                        + ", X_coordinate of person's location = " + worker.getPerson().getLocation().getX()
-                        + ", Y_coordinate of person's location = " + worker.getPerson().getLocation().getY()
-                        + ", Z_coordinate of person's location = " + worker.getPerson().getLocation().getZ()
-                        + ", Name of person's location = " + worker.getPerson().getLocation().getName() + "]");
+                list.add(worker.getId() + "," + worker.getName() + ","
+                        + worker.getCoordinates().getX() + "," + worker.getCoordinates().getY() + ","
+                        + worker.getCreationDate().toString() + "," + worker.getSalary() + ","
+                        + worker.getPosition() + "," + worker.getStatus() + ","
+                        + worker.getPerson().getHeight() + "," + worker.getPerson().getPassportID() + ","
+                        + worker.getPerson().getLocation().getX() + "," + worker.getPerson().getLocation().getY() + ","
+                        + worker.getPerson().getLocation().getZ() + "," + worker.getPerson().getLocation().getName() + ","
+                        + worker.getOwner());
             }
         }
         return list;

@@ -2,6 +2,7 @@ package transferring;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 public class Transfer {
     private final String HOST;
@@ -42,17 +43,21 @@ public class Transfer {
         return o;
     }
 
-    public void transfer(Request data) throws IOException, ClassNotFoundException {
+    public List<String> transfer(Request data) throws IOException, ClassNotFoundException {
         try {
             connect();
         } catch (IOException e) {
             System.out.println("Server is not available to connect");
-            return;
+            return null;
         }
         data.setToken(token);
         send(data);
         Response response = (Response) receive();
-        response.printMessage();
         socket.close();
+        return response.getMessage();
+    }
+
+    public Token getToken() {
+        return token;
     }
 }

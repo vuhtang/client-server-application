@@ -1,11 +1,12 @@
 package commands.concrete;
 
+import collection.entity.Worker;
 import commands.Command;
 import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.List;
 
 public class Register extends Command {
     private final Transfer transfer;
@@ -15,14 +16,8 @@ public class Register extends Command {
         this.transfer = transfer;
     }
     @Override
-    public void action(String args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter login:");
-        String userName = scanner.nextLine().trim();
-        System.out.println("Enter password:");
-        String userPassword = scanner.nextLine().trim();
-        String argument = userName + " " + userPassword;
-        Request request = new Request(getName(),  argument);
+    public List<String> action(String args, Worker worker) {
+        Request request = new Request(getName(),  args);
         try {
             transfer.transfer(request);
         } catch (IOException e) {
@@ -30,5 +25,6 @@ public class Register extends Command {
         } catch (ClassNotFoundException e) {
             System.out.println("Object came to us broken");
         }
+        return null;
     }
 }

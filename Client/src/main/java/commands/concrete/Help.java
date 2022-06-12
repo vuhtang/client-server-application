@@ -1,10 +1,13 @@
 package commands.concrete;
 
+import collection.entity.Worker;
 import commands.Command;
 import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Help command. Displays help on available commands.
@@ -26,14 +29,16 @@ public class Help extends Command {
      * @param args an empty string as an imperfection of the program model
      */
     @Override
-    public void action(String args) {
+    public List<String> action(String args, Worker worker) {
+        List<String> result = new ArrayList<>();
         Request request = new Request(getName(), args);
         try {
-            transfer.transfer(request);
+            result.addAll(transfer.transfer(request));
         } catch (IOException e) {
-            System.out.println("Input/output exception");
+            result.add("Input/output exception");
         } catch (ClassNotFoundException e) {
-            System.out.println("Object came to us broken");
+            result.add("Object came to us broken");
         }
+        return result;
     }
 }

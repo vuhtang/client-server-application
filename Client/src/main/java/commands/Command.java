@@ -1,5 +1,9 @@
 package commands;
 
+import collection.entity.Worker;
+
+import java.util.List;
+
 /**
  * Abstract class from which all commands are extended. It has an abstract method "action" as
  * a specific action of each concrete command.
@@ -25,7 +29,7 @@ public abstract class Command {
         this.description = desc;
     }
 
-    public abstract void action(String args);
+    public abstract List<String> action(String args, Worker worker);
 
     public String getName() {
         return name;

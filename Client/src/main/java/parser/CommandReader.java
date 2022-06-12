@@ -33,11 +33,13 @@ public class CommandReader {
      * @throws IOException           if an input exception occurs
      * @throws InvalidInputException if a given file is empty
      */
-    public void executeCommands(String filePath) throws IOException, InvalidInputException {
+    public List<String> executeCommands(String filePath) throws IOException, InvalidInputException {
         CommandExecutor executor = new CommandExecutor(transfer);
+        List<String> result = new ArrayList<>();
         for (String command : readCommands(filePath)) {
-            executor.executeCommand(command);
+            result.addAll(executor.executeCommand(command));
         }
+        return result;
     }
 
     /**

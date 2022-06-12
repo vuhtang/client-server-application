@@ -1,10 +1,13 @@
 package commands.concrete;
 
+import collection.entity.Worker;
 import commands.Command;
 import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Average of salary command. It computes and prints the average salary of workers in the collection.
@@ -27,14 +30,16 @@ public class AverageOfSalary extends Command {
      * @param args an empty line, as an imperfection of the program model
      */
     @Override
-    public void action(String args) {
+    public List<String> action(String args, Worker worker) {
         Request request = new Request(getName(), args);
+        List<String> result = new ArrayList<>();
         try {
-            transfer.transfer(request);
+            result.addAll(transfer.transfer(request));
         } catch (IOException e) {
-            System.out.println("Input/output exception");
+            result.add("Input/output exception");
         } catch (ClassNotFoundException e) {
-            System.out.println("Object came to us broken");
+            result.add("Object came to us broken");
         }
+        return result;
     }
 }

@@ -11,8 +11,7 @@ public class Response implements Serializable {
         this.message = new ArrayList<>(stringList);
     }
 
-    public void printMessage() {
-        System.out.println();
-        message.forEach(System.out::println);
+    public ArrayList<String> getMessage() {
+        return message;
     }
 }

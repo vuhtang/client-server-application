@@ -25,7 +25,7 @@ public class CoordinatesFactory {
     public CoordinatesFactory setX(String value) throws NumberFormatException {
         try {
             long longValue = Long.parseLong(value.trim());
-            if (longValue > 394) throw new NumberFormatException
+            if (longValue > 100 || longValue < -100) throw new NumberFormatException
                     ("The x coordinate of the worker is not correct");
             coordinates.setX(longValue);
         } catch (NumberFormatException e) {
@@ -45,6 +45,8 @@ public class CoordinatesFactory {
     public CoordinatesFactory setY(String value) throws NumberFormatException {
         try {
             float floatValue = Float.parseFloat(value.trim());
+            if (floatValue > 100 || floatValue < -100) throw new NumberFormatException
+                    ("The y coordinate of the worker is not correct");
             coordinates.setY(floatValue);
         } catch (NumberFormatException e) {
             throw new NumberFormatException

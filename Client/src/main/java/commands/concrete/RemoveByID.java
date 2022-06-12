@@ -1,10 +1,13 @@
 package commands.concrete;
 
+import collection.entity.Worker;
 import commands.Command;
 import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Remove by ID command. Removes a worker with given ID. Only one worker will be removed
@@ -26,22 +29,25 @@ public class RemoveByID extends Command {
      *
      * @param args the ID of worker to be removed
      */
-    public void action(String args) {
+    @Override
+    public List<String> action(String args, Worker worker) {
         int id;
+        List<String> result = new ArrayList<>();
         try {
             id = Integer.parseInt(args);
             if (id <= 0) throw new NumberFormatException();
         } catch (NumberFormatException e) {
-            System.out.println("It's not an integer");
-            return;
+            result.add("It's not an integer");
+            return result;
         }
         Request request = new Request(getName(), Integer.toString(id));
         try {
-            transfer.transfer(request);
+            result.addAll(transfer.transfer(request));
         } catch (IOException e) {
-            System.out.println("Input/output exception");
+            result.add("Input/output exception");
         } catch (ClassNotFoundException e) {
-            System.out.println("Object came to us broken");
+            result.add("Object came to us broken");
         }
+        return result;
     }
 }

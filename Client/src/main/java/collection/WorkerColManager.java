@@ -1,17 +1,8 @@
 package collection;
 
-import collection.entity.Coordinates;
-import collection.entity.Position;
 import collection.entity.Worker;
-
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * Worker collection class manager. Contains a collection and commands to work with.
@@ -31,36 +22,44 @@ public class WorkerColManager implements Serializable {
         this.collection = collection;
     }
 
-    /**
-     * Adds all workers from the given collection, elements of which extends from Worker.
-     *
-     * @param c collection of elements to add
-     */
-    public void addAllWorkers(Collection<? extends Worker> c) {
-        collection.addAll(c);
+    public Worker getWorkerByID(int id) {
+        Optional<Worker> o = collection.stream().filter((p) -> p.getId() == id).findAny();
+        return o.orElse(null);
     }
 
-    public void addWorker(Worker worker) {
-        collection.add(worker);
+    public boolean checkId(int id) {
+        return collection.stream().anyMatch(worker -> worker.getId() == id);
     }
 
-    /**
-     * Adds new ID to the collection's memory if it is not already present.
-     *
-     * @param id ID to be added
-     * @return true if collection's memory did not already contain this ID
-     */
-    public boolean addID(int id) {
-        return collection.addID(id);
+    public Object[][] getRowData() {
+        Object[][] rowData = new Object[getSize()][15];
+        Worker worker;
+        for (int i=0; i<getSize(); i++) {
+            worker = collection.get(i);
+            rowData[i][0] = worker.getId();
+            rowData[i][1] = worker.getName();
+            rowData[i][2] = worker.getCoordinates().getX();
+            rowData[i][3] = worker.getCoordinates().getY();
+            rowData[i][4] = worker.getCreationDate();
+            rowData[i][5] = worker.getSalary();
+            rowData[i][6] = worker.getPosition();
+            rowData[i][7] = worker.getStatus();
+            rowData[i][8] = worker.getPerson().getHeight();
+            rowData[i][9] = worker.getPerson().getPassportID();
+            rowData[i][10] = worker.getPerson().getLocation().getX();
+            rowData[i][11] = worker.getPerson().getLocation().getY();
+            rowData[i][12] = worker.getPerson().getLocation().getZ();
+            rowData[i][13] = worker.getPerson().getLocation().getName();
+            rowData[i][14] = worker.getOwner();
+        }
+        return rowData;
     }
 
-    /**
-     * Gives the average value of the salary for all items in the collection.
-     *
-     * @return average value of the salary
-     */
-    public Double averageOfSalary() {
-        return collection.stream().mapToLong(Worker::getSalary).average().getAsDouble();
+    public String[] getRowFieldNames() {
+        return new String[]{"id", "name", "coordinateX", "coordinateY", "creationDate",
+                "salary", "position", "status", "personHeight",
+                "personPassportId", "personLocationX", "personLocationY", "personLocationZ", "personLocationName",
+                "owner"};
     }
 
     /**
@@ -70,98 +69,11 @@ public class WorkerColManager implements Serializable {
         collection.clear();
     }
 
-    public List<Worker> getWorkersByPosition(Position position) {
-        return collection.stream().filter(p -> p.getPosition() == position).toList();
-    }
-
-    /**
-     * Gives workers with same coordinates.
-     *
-     * @return Map(coordinates, list of workers)
-     */
-    public Map<Coordinates, List<Worker>> getGroupsByCoordinates() {
-        return collection.stream().collect(Collectors.groupingBy(Worker::getCoordinates));
-    }
-
-    public String getInfo() {
-        return "\nCollection type: " + collection.getClass().getSimpleName()
-                + "\nInitialization date: " + collection.getChangedDate().getDayOfMonth() + "."
-                + collection.getChangedDate().getMonth().getValue() + "." + collection.getChangedDate().getYear()
-                + "  " + collection.getChangedDate().toLocalTime()
-                + "\nAmount of elements: " + collection.size() + "\n";
-    }
-
-    public void insertAt(int index, Worker worker) {
-        collection.add(index, worker);
-    }
-
     public int getSize() {
         return collection.size();
     }
 
-    public void removeWorkerAt(int index) {
-        collection.remove(index);
-    }
-
-    public boolean removeWorkerById(int id) {
-        return collection.removeIf(worker -> worker.getId() == id);
-    }
-
-    public void removeAllLower(Worker worker) {
-        List<Worker> list = collection.stream().filter((p) -> p.compareTo(worker) <= 0).toList();
-        collection.removeAll(list);
-    }
-
-    public boolean saveCollection() {
-        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(collection.getFilePath(), false))) {
-            String fields = "id,name,coordinates_x,coordinates_y," +
-                    "creationDate,salary,position,status,person_height,person_passportID," +
-                    "person_location_x,person_location_y,person_location_z,person_location_name" + "\n";
-
-            bos.write(fields.getBytes());
-            String values;
-            for (Worker worker : collection) {
-                values = worker.getId() + "," + worker.getName() + ","
-                        + worker.getCoordinates().getX().toString() + ","
-                        + worker.getCoordinates().getY() + ","
-                        + worker.getCreationDate().toString() + ","
-                        + worker.getSalary() + ","
-                        + worker.getPosition().toString() + ","
-                        + worker.getStatus().toString() + ","
-                        + worker.getPerson().getHeight() + ","
-                        + worker.getPerson().getPassportID() + ","
-                        + worker.getPerson().getLocation().getX() + ","
-                        + worker.getPerson().getLocation().getY() + ","
-                        + worker.getPerson().getLocation().getZ() + ","
-                        + worker.getPerson().getLocation().getName() + "\n";
-                bos.write(values.getBytes());
-                bos.flush();
-            }
-        } catch (IOException e) {
-            return false;
-        }
-        return true;
-    }
-
-    public void showWorkers() {
-        if (collection.isEmpty()) {
-            System.out.println("Collection is empty");
-        } else {
-            System.out.println("\nWorkers in collection:");
-            for (Worker worker : collection) {
-                System.out.println("[ ID = " + worker.getId() + ", Name = " + worker.getName()
-                        + ", X_coordinate = " + worker.getCoordinates().getX() +
-                        ", Y_coordinate = " + worker.getCoordinates().getY() + ", CreationDate = "
-                        + worker.getCreationDate().getDayOfMonth() + "." + worker.getCreationDate().getMonth().getValue()
-                        + "." + worker.getCreationDate().getYear() + ", Salary = " + worker.getSalary()
-                        + ", Position = " + worker.getPosition() + ", Status = " + worker.getStatus()
-                        + ", Person's height = " + worker.getPerson().getHeight() + ", Person's passportID = "
-                        + worker.getPerson().getPassportID()
-                        + ", X_coordinate of person's location = " + worker.getPerson().getLocation().getX()
-                        + ", Y_coordinate of person's location = " + worker.getPerson().getLocation().getY()
-                        + ", Z_coordinate of person's location = " + worker.getPerson().getLocation().getZ()
-                        + ", Name of person's location = " + worker.getPerson().getLocation().getName() + "]");
-            }
-        }
+    public List<Worker> getWorkers() {
+        return collection.stream().toList();
     }
 }

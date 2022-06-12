@@ -1,12 +1,13 @@
 package commands.concrete;
 
 import collection.entity.Worker;
-import commands.AddRequest;
 import commands.Command;
 import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Update command. Updates data about the worker with the given ID.
@@ -31,23 +32,23 @@ public class Update extends Command {
      * @param args the id of the updating worker
      */
     @Override
-    public void action(String args) {
+    public List<String> action(String args, Worker worker) {
         int id;
+        List<String> result = new ArrayList<>();
         try {
             id = Integer.parseInt(args);
         } catch (NumberFormatException e) {
-            System.out.println("It's not an integer");
-            return;
+            result.add("It's not an integer");
+            return result;
         }
-        Worker worker = new AddRequest().requestWorker();
-        if (worker == null) return;
         Request request = new Request(getName(), Integer.toString(id), worker);
         try {
-            transfer.transfer(request);
+            result.addAll(transfer.transfer(request));
         } catch (IOException e) {
-            System.out.println("Input/output exception");
+            result.add("Input/output exception");
         } catch (ClassNotFoundException e) {
-            System.out.println("Object came to us broken");
+            result.add("Object came to us broken");
         }
+        return result;
     }
 }

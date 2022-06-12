@@ -7,8 +7,6 @@ import exceptions.InvalidInputException;
 import transferring.Token;
 
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 
 /**
@@ -33,7 +31,7 @@ public class CommandExecutor {
                 new Clear(colManager), new InsertAt(colManager), new RemoveAt(colManager),
                 new RemoveLower(colManager), new AverageOfSalary(colManager),
                 new GroupCountingByCoordinates(colManager), new FilterByPosition(colManager),
-                new Register(colManager)
+                new LogIn(colManager), new Register(colManager)
         ));
     }
 

@@ -1,10 +1,13 @@
 package commands.concrete;
 
+import collection.entity.Worker;
 import commands.Command;
 import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Remove at command. Removes a worker at the position as a collection index.
@@ -27,21 +30,23 @@ public class RemoveAt extends Command {
      * @param args the index to remove at
      */
     @Override
-    public void action(String args) {
+    public List<String> action(String args, Worker worker) {
         int index;
+        List<String> result = new ArrayList<>();
         try {
             index = Integer.parseInt(args);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid index");
-            return;
+            result.add("Invalid index");
+            return result;
         }
         Request request = new Request(getName(), Integer.toString(index));
         try {
-            transfer.transfer(request);
+            result.addAll(transfer.transfer(request));
         } catch (IOException e) {
-            System.out.println("Input/output exception");
+            result.add("Input/output exception");
         } catch (ClassNotFoundException e) {
-            System.out.println("Object came to us broken");
+            result.add("Object came to us broken");
         }
+        return result;
     }
 }

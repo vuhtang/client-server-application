@@ -1,5 +1,6 @@
 package commands.concrete;
 
+import collection.entity.Worker;
 import commands.Command;
 import exceptions.InvalidInputException;
 import parser.CommandReader;
@@ -7,6 +8,7 @@ import transferring.Transfer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Execute script command. It executes script from a file in which
@@ -40,17 +42,19 @@ public class ExecuteScript extends Command {
      * @see CommandReader
      */
     @Override
-    public void action(String args) {
+    public List<String> action(String args, Worker worker) {
         CommandReader commandReader = new CommandReader(transfer);
+        List<String> result = new ArrayList<>();
         if (paths.contains(args)) {
-            System.out.println("Execution stopped due to a possible loop");
-            return;
+            result.add("Execution stopped due to a possible loop");
+            return result;
         } else paths.add(args);
         try {
-            commandReader.executeCommands(args);
+            result.addAll(commandReader.executeCommands(args));
             paths.remove(args);
         } catch (IOException | InvalidInputException e) {
             e.printStackTrace();
         }
+        return result;
     }
 }

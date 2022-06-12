@@ -7,6 +7,8 @@ import transferring.Request;
 import transferring.Transfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Add command. It adds new worker to the given collection,
@@ -31,16 +33,17 @@ public class Add extends Command {
      * @see AddRequest
      */
     @Override
-    public void action(String args) {
-        Worker worker = new AddRequest().requestWorker();
-        if (worker == null) return;
+    public List<String> action(String args, Worker worker) {
+        List<String> result = new ArrayList<>();
+        if (worker == null) return null;
         Request request = new Request(getName(), args, worker);
         try {
-            transfer.transfer(request);
+            result.addAll(transfer.transfer(request));
         } catch (IOException e) {
-            System.out.println("Input/output exception");
+            result.add("Input/output exception");
         } catch (ClassNotFoundException e) {
-            System.out.println("Object came to us broken");
+            result.add("Object came to us broken");
         }
+        return result;
     }
 }

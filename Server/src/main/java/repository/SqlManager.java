@@ -30,8 +30,8 @@ public class SqlManager {
         List<Worker> workers = new ArrayList<>();
         ResultSet result = statement.executeQuery("SELECT * FROM workers;");
         while (result.next()) {
-            String[] values = new String[15];
-            for (int i = 1; i < 15; i++) {
+            String[] values = new String[16];
+            for (int i = 1; i < 16; i++) {
                 values[i] = result.getString(i);
             }
             workers.add(WorkerReader.readWorker(values));
