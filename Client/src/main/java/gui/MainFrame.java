@@ -260,7 +260,7 @@ public class MainFrame extends JFrame {
         return colManager;
     }
 
-    public void updateTable() {
+    public synchronized void updateTable() {
         int selectedTab = tabbedPane.getSelectedIndex();
         WorkerCollection collection = new WorkerCollection();
         try {

@@ -2,6 +2,7 @@ import gui.LoginFrame;
 import transferring.Transfer;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Contains a main method that starts the program.
@@ -16,6 +17,10 @@ public class ClientApp {
      * @param args path to file with collection
      */
     public static void main(String[] args) {
+        EventQueue.invokeLater(ClientApp::run);
+    }
+
+    private static void run() {
         Transfer transfer = new Transfer(HOST, PORT, null);
         JFrame frame = new LoginFrame(transfer);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
