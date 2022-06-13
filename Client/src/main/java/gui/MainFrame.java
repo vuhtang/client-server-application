@@ -243,7 +243,11 @@ public class MainFrame extends JFrame {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                updateTable();
+                try {
+                    updateTable();
+                } catch (Exception ex) {
+                    messageLabel.setText("Something is wrong with server");
+                }
             }
         }, 1000, 4000);
     }
