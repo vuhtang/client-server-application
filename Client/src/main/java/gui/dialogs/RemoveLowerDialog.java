@@ -8,6 +8,10 @@ import gui.Translator;
 
 import java.util.ResourceBundle;
 
+/**
+ * Dialog window for removing all workers lower than the given one.
+ * Workers compare according to their salary.
+ */
 public class RemoveLowerDialog extends AddDialog {
 
     public RemoveLowerDialog(MainFrame owner, String title, boolean modal) {
@@ -31,6 +35,12 @@ public class RemoveLowerDialog extends AddDialog {
         });
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     * Calls when the window is opened.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         ResourceBundle bundle = ResourceBundle.getBundle("MainLabels", Translator.getLocale(localeName));
         setAddButtonName(bundle.getString("removeLower"));

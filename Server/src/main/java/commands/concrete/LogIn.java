@@ -11,15 +11,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Command which checks users.
+ */
 public class LogIn extends Command {
 
     private final WorkerColManager colManager;
 
-    public LogIn(WorkerColManager colManager){
+    public LogIn(WorkerColManager colManager) {
         super("logIn", "check user in data base");
         this.colManager = colManager;
     }
 
+    /**
+     * Checks user. If there is such a user, the answer will be positive
+     */
     @Override
     public List<String> action(String args, Worker worker, Token token) {
         List<String> response = new ArrayList<>();

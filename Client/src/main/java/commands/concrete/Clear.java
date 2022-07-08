@@ -14,33 +14,18 @@ import java.util.List;
  * Clear command. It removes all workers from the collection.
  */
 public class Clear extends Command {
-    private final Transfer transfer;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public Clear(Transfer transfer) {
-        super("clear", "remove all workers from collection");
-        this.transfer = transfer;
+        super("clear", transfer);
     }
 
     /**
-     * Removes all workers from the given collection using removeAll method of super class.
+     * Removes all workers from the given collection.
      *
-     * @param args an empty line, as an imperfection of the program model
-     * @see java.util.ArrayList#removeAll(Collection)
+     * @return execution result list
      */
     @Override
     public List<String> action(String args, Worker worker) {
-        Request request = new Request(getName(), args);
-        List<String> result = new ArrayList<>();
-        try {
-            result.addAll(transfer.transfer(request));
-        } catch (IOException e) {
-            result.add("Input/output exception");
-        } catch (ClassNotFoundException e) {
-            result.add("Object came to us broken");
-        }
-        return result;
+        return defaultAction(new Request(getName(), args), new ArrayList<>());
     }
 }

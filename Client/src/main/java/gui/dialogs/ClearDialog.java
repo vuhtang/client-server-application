@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
 
+/**
+ * Dialog window for removing all workers. Just a confirmation.
+ */
 public class ClearDialog extends JDialog {
     private final JLabel sureLabel;
     private final JButton yes;
@@ -36,6 +39,12 @@ public class ClearDialog extends JDialog {
         });
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     * Called when the window is opened.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         ResourceBundle bundle = ResourceBundle.getBundle("MainLabels", Translator.getLocale(localeName));
         sureLabel.setText(bundle.getString("sure"));

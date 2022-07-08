@@ -9,6 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manager for working with sql database.
+ */
 public class SqlManager {
     private static final String URL = "jdbc:postgresql://localhost:1077/studs";
     private static final String addWithID = "INSERT INTO workers (id, name, \"coordinateX\", \"coordinateY\"," +

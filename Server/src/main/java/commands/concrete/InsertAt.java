@@ -19,9 +19,6 @@ public class InsertAt extends Command {
      */
     private final WorkerColManager colManager;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public InsertAt(WorkerColManager colManager) {
         super("insert_at", "add a new worker to a given position");
         this.colManager = colManager;
@@ -29,8 +26,7 @@ public class InsertAt extends Command {
 
     /**
      * Adds new worker to a given position. If the position is incorrect execution will be stopped.
-     * During work, it makes a request to enter data about the worker
-     * through the console using AddRequest. Also assigns ID to a new worker.
+     * Also assigns ID to a new worker.
      *
      * @param args the index to insert at
      */

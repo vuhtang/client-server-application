@@ -20,9 +20,6 @@ public class GroupCountingByCoordinates extends Command {
      */
     private final WorkerColManager colManager;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public GroupCountingByCoordinates(WorkerColManager colManager) {
         super("group_counting_by_coordinates",
                 "group the elements of the collection by the value of the field coordinates," +
@@ -33,8 +30,6 @@ public class GroupCountingByCoordinates extends Command {
     /**
      * Groups workers from collection into groups and writes them down in a lists as a values in Map,
      * keys to which are coordinates of workers in appropriating list.
-     *
-     * @param args an empty string as an imperfection of the program model
      */
     @Override
     public List<String> action(String args, Worker worker, Token token) {

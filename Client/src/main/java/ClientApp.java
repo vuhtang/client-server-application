@@ -11,11 +11,6 @@ public class ClientApp {
     private static final int PORT = 1014;
     private static final String HOST = "localhost";
 
-    /**
-     * Starts the application with args, which are passed further to a method 'run'.
-     *
-     * @param args path to file with collection
-     */
     public static void main(String[] args) {
         EventQueue.invokeLater(ClientApp::run);
     }

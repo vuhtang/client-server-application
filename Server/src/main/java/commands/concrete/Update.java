@@ -19,9 +19,6 @@ public class Update extends Command {
      */
     private final WorkerColManager colManager;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public Update(WorkerColManager colManager) {
         super("update", "update the value of the collection" +
                 " element whose id is equal to the given one");
@@ -30,8 +27,7 @@ public class Update extends Command {
 
     /**
      * Updates data about the worker with the given ID. If ID is incorrect execution will be stopped.
-     * Firstly removes worker with this ID, then adds new worker using AddRequest and
-     * doesn't assign new ID to this worker.
+     * Firstly removes worker with this ID, then adds new worker and doesn't assign new ID to this worker.
      *
      * @param args the id of the updating worker
      */

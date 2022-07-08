@@ -24,7 +24,7 @@ public class WorkerReader {
     /**
      * Reads worker from string massive of fields. Uses factories with validation in.
      *
-     * @param values 14 string values of fields
+     * @param values 16 string values of fields
      * @return a new worker
      * @throws InvalidInputException if any value fails validation
      */

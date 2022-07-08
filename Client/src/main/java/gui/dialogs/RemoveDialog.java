@@ -10,6 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
 
+/**
+ * Dialog window for removing workers with specific id.
+ */
 public class RemoveDialog extends JDialog {
     private ResourceBundle bundle;
     private final JLabel enterIdLabel;
@@ -22,15 +25,15 @@ public class RemoveDialog extends JDialog {
         setMinimumSize(new Dimension(600, 120));
         setLayout(new GridBagLayout());
         enterIdLabel = new JLabel();
-        add(enterIdLabel, new GBC(0,0,1,1));
+        add(enterIdLabel, new GBC(0, 0, 1, 1));
         JTextField id = new JTextField(15);
         ok = new JButton("Ok");
         cancel = new JButton("Cancel");
         JLabel messageLabel = new JLabel();
-        add(id, new GBC(1,0,1,1));
-        add(messageLabel, new GBC(0,1,2,1));
-        add(ok, new GBC(0,2,1,1));
-        add(cancel, new GBC(1,2,1,1));
+        add(id, new GBC(1, 0, 1, 1));
+        add(messageLabel, new GBC(0, 1, 2, 1));
+        add(ok, new GBC(0, 2, 1, 1));
+        add(cancel, new GBC(1, 2, 1, 1));
 
         cancel.addActionListener(e -> setVisible(false));
 
@@ -51,6 +54,12 @@ public class RemoveDialog extends JDialog {
         });
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     * Calls when the window is opened.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         bundle = ResourceBundle.getBundle("MainLabels", Translator.getLocale(localeName));
         enterIdLabel.setText(bundle.getString("enterIdRemove"));

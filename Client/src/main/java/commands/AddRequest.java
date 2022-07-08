@@ -7,8 +7,8 @@ import factory.*;
 import java.time.LocalDateTime;
 
 /**
- * Class with only one method requesting new worker. This method invites you to enter
- * all fields of the worker sequentially with the possibility of canceling the entry.
+ * Class with only one method requesting new worker. This method accepts characteristics of a worker
+ * in string form, validates them and returns a new worker without id. (hardcoded....)
  */
 public class AddRequest {
     private final WorkersFactory workersFactory = new WorkersFactory();

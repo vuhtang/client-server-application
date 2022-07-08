@@ -9,9 +9,15 @@ import gui.Translator;
 
 import java.util.ResourceBundle;
 
+/**
+ * Dialog window for updating worker with specific id.
+ */
 public class UpdateDialog extends AddDialog {
-    private final MainFrame mainFrame;
+    /**
+     * Worker id to update. Sets after mini-dialog with id entry.
+     */
     private int workerId;
+    private final MainFrame mainFrame;
 
     public UpdateDialog(MainFrame owner, String title, boolean modal) {
         super(owner, title, modal);
@@ -36,6 +42,9 @@ public class UpdateDialog extends AddDialog {
         });
     }
 
+    /**
+     * Fills in fields with old worker data. Calls when the window is opened.
+     */
     public void fillFields() {
         Worker worker = mainFrame.getColManager().getWorkerByID(workerId);
         setCoordinateX(Math.toIntExact(worker.getCoordinates().getX()));
@@ -52,6 +61,12 @@ public class UpdateDialog extends AddDialog {
         setStatusComboBox(worker.getStatus());
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     * Calls when the window is opened.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         ResourceBundle bundle = ResourceBundle.getBundle("MainLabels", Translator.getLocale(localeName));
         setAddButtonName(bundle.getString("update"));

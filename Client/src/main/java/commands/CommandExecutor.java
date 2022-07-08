@@ -17,6 +17,9 @@ public class CommandExecutor {
      * Set of all available commends.
      */
     private final Set<Command> commands;
+    /**
+     * Entity that implements communication with the server.
+     */
     private final Transfer transfer;
 
     /**
@@ -25,12 +28,11 @@ public class CommandExecutor {
     public CommandExecutor(Transfer transfer) {
         this.transfer = transfer;
         this.commands = new HashSet<>(Arrays.asList(
-                new Help(transfer), new Info(transfer), new Add(transfer),
+                new Info(transfer), new Add(transfer),
                 new Show(transfer), new Update(transfer), new RemoveByID(transfer),
                 new Clear(transfer), new InsertAt(transfer), new RemoveAt(transfer),
                 new RemoveLower(transfer), new AverageOfSalary(transfer),
-                new GroupCountingByCoordinates(transfer), new FilterByPosition(transfer),
-                new ExecuteScript(transfer), new Exit(), new Register(transfer),
+                new Register(transfer),
                 new LogIn(transfer)
         ));
     }
@@ -42,10 +44,6 @@ public class CommandExecutor {
     public Command getCommand(String cmdName) {
         Optional<Command> cmd = commands.stream().filter(c -> c.getName().equals(cmdName)).findFirst();
         return cmd.orElse(null);
-    }
-
-    public List<String> executeCommand(Command command, String args) {
-        return command.action(args, null);
     }
 
     /**

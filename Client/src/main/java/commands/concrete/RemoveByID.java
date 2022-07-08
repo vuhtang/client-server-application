@@ -14,20 +14,15 @@ import java.util.List;
  * since the ID is unique for each worker in the given collection.
  */
 public class RemoveByID extends Command {
-    private final Transfer transfer;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public RemoveByID(Transfer transfer) {
-        super("remove_by_id", "remove worker by id");
-        this.transfer = transfer;
+        super("remove_by_id", transfer);
     }
 
     /**
      * Removes worker by given ID. If the ID is incorrect execution will be stopped.
      *
-     * @param args the ID of worker to be removed
+     * @return execution result list
      */
     @Override
     public List<String> action(String args, Worker worker) {
@@ -40,14 +35,6 @@ public class RemoveByID extends Command {
             result.add("It's not an integer");
             return result;
         }
-        Request request = new Request(getName(), Integer.toString(id));
-        try {
-            result.addAll(transfer.transfer(request));
-        } catch (IOException e) {
-            result.add("Input/output exception");
-        } catch (ClassNotFoundException e) {
-            result.add("Object came to us broken");
-        }
-        return result;
+        return defaultAction(new Request(getName(), Integer.toString(id)), result);
     }
 }

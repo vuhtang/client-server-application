@@ -1,6 +1,7 @@
 package collection;
 
 import collection.entity.Worker;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -13,11 +14,6 @@ public class WorkerColManager implements Serializable {
      */
     private final WorkerCollection collection;
 
-    /**
-     * Initializes collection manager to the given collection.
-     *
-     * @param collection collection to work with
-     */
     public WorkerColManager(WorkerCollection collection) {
         this.collection = collection;
     }
@@ -31,10 +27,15 @@ public class WorkerColManager implements Serializable {
         return collection.stream().anyMatch(worker -> worker.getId() == id);
     }
 
+    /**
+     * Gives data for the table
+     *
+     * @return "row" data for table model
+     */
     public Object[][] getRowData() {
         Object[][] rowData = new Object[getSize()][15];
         Worker worker;
-        for (int i=0; i<getSize(); i++) {
+        for (int i = 0; i < getSize(); i++) {
             worker = collection.get(i);
             rowData[i][0] = worker.getId();
             rowData[i][1] = worker.getName();
@@ -55,6 +56,11 @@ public class WorkerColManager implements Serializable {
         return rowData;
     }
 
+    /**
+     * Gives field names for the table
+     *
+     * @return string field names
+     */
     public String[] getRowFieldNames() {
         return new String[]{"id", "name", "coordinateX", "coordinateY", "creationDate",
                 "salary", "position", "status", "personHeight",

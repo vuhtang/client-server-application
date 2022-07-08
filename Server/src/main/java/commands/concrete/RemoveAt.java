@@ -19,9 +19,6 @@ public class RemoveAt extends Command {
      */
     private final WorkerColManager colManager;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public RemoveAt(WorkerColManager colManager) {
         super("remove_at", "remove an element at a give position");
         this.colManager = colManager;
@@ -29,7 +26,6 @@ public class RemoveAt extends Command {
 
     /**
      * Removes a worker at a given position. If the position is incorrect execution will be stopped.
-     * Uses remove method of super class.
      *
      * @param args the index to remove at
      */

@@ -20,9 +20,6 @@ public class RemoveByID extends Command {
      */
     private final WorkerColManager colManager;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public RemoveByID(WorkerColManager colManager) {
         super("remove_by_id", "remove worker by id");
         this.colManager = colManager;

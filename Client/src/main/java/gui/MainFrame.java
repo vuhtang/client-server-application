@@ -16,6 +16,9 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Main window. Contains all things. Big. Window.
+ */
 public class MainFrame extends JFrame {
     private final int USER_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     private final int USER_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;

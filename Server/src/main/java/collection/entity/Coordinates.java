@@ -13,12 +13,10 @@ public class Coordinates implements Serializable {
      * The x coordinate. Can't be more than 394.
      */
     private Long x;
-
     /**
      * The y coordinate
      */
     private float y;
-
     /**
      * Initialises fields to default values.
      */

@@ -13,21 +13,15 @@ import java.util.List;
  * Remove at command. Removes a worker at the position as a collection index.
  */
 public class RemoveAt extends Command {
-    private final Transfer transfer;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public RemoveAt(Transfer transfer) {
-        super("remove_at", "remove an element at a give position");
-        this.transfer = transfer;
+        super("remove_at", transfer);
     }
 
     /**
      * Removes a worker at a given position. If the position is incorrect execution will be stopped.
-     * Uses remove method of super class.
      *
-     * @param args the index to remove at
+     * @return execution result list
      */
     @Override
     public List<String> action(String args, Worker worker) {
@@ -39,14 +33,6 @@ public class RemoveAt extends Command {
             result.add("Invalid index");
             return result;
         }
-        Request request = new Request(getName(), Integer.toString(index));
-        try {
-            result.addAll(transfer.transfer(request));
-        } catch (IOException e) {
-            result.add("Input/output exception");
-        } catch (ClassNotFoundException e) {
-            result.add("Object came to us broken");
-        }
-        return result;
+        return defaultAction(new Request(getName(), Integer.toString(index)), result);
     }
 }

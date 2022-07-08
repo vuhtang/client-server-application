@@ -4,6 +4,9 @@ import collection.entity.Worker;
 
 import java.io.Serializable;
 
+/**
+ * Client-server data exchange object. Send by client
+ */
 public class Request implements Serializable {
     private String commandName;
     private String argument;

@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
 
+/**
+ * Mini-dialog id entry window. Lets further only if input is correct.
+ * Tells this id to the next dialog.
+ */
 public class UpdateMiniDialog extends JDialog {
     private final JTextField id;
     private final JButton ok;
@@ -19,18 +23,18 @@ public class UpdateMiniDialog extends JDialog {
     public UpdateMiniDialog(MainFrame owner, UpdateDialog updateDialog) {
         super(owner, "ID", true);
         setSize(600, 120);
-        setMinimumSize(new Dimension(600,120));
+        setMinimumSize(new Dimension(600, 120));
         setLayout(new GridBagLayout());
         enterLabel = new JLabel();
-        add(enterLabel, new GBC(0,0,1,1));
+        add(enterLabel, new GBC(0, 0, 1, 1));
         id = new JTextField(15);
         ok = new JButton();
         cancel = new JButton();
         messageLabel = new JLabel();
-        add(id, new GBC(1,0,1,1));
-        add(messageLabel, new GBC(0,1,2,1));
-        add(ok, new GBC(0,2,1,1));
-        add(cancel, new GBC(1,2,1,1));
+        add(id, new GBC(1, 0, 1, 1));
+        add(messageLabel, new GBC(0, 1, 2, 1));
+        add(ok, new GBC(0, 2, 1, 1));
+        add(cancel, new GBC(1, 2, 1, 1));
 
 
         cancel.addActionListener(e -> setVisible(false));
@@ -50,6 +54,12 @@ public class UpdateMiniDialog extends JDialog {
         });
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     * Calls when the window is opened.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         bundle = ResourceBundle.getBundle("MainLabels", Translator.getLocale(localeName));
         ok.setText(bundle.getString("ok"));

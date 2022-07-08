@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Command for registration. Registers new user and writes him to the database.
+ */
 public class Register extends Command {
 
     private final WorkerColManager colManager;
@@ -28,7 +31,7 @@ public class Register extends Command {
         String userPassword = args0[1];
         SqlManager sqlManager = colManager.getSqlManager();
         try {
-            sqlManager.addUser(new Token(userLogin,userPassword));
+            sqlManager.addUser(new Token(userLogin, userPassword));
         } catch (SQLException e) {
             response.add(e.getMessage());
             return response;

@@ -14,7 +14,9 @@ import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
-
+/**
+ * The first window user sees. Window for entry and possible registration.
+ */
 public class LoginFrame extends JFrame {
     private final int USER_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     private final int USER_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -127,6 +129,11 @@ public class LoginFrame extends JFrame {
         langBox.setSelectedItem(lang);
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         Translator.setLocale(localeName);
         ResourceBundle bundle = ResourceBundle.getBundle("LoginLabels", Translator.currentLocale());

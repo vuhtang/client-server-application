@@ -13,23 +13,16 @@ import java.util.List;
  * Update command. Updates data about the worker with the given ID.
  */
 public class Update extends Command {
-    private final Transfer transfer;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public Update(Transfer transfer) {
-        super("update", "update the value of the collection" +
-                " element whose id is equal to the given one");
-        this.transfer = transfer;
+        super("update", transfer);
     }
 
     /**
      * Updates data about the worker with the given ID. If ID is incorrect execution will be stopped.
-     * Firstly removes worker with this ID, then adds new worker using AddRequest and
-     * doesn't assign new ID to this worker.
+     * Firstly removes worker with this ID, then adds new worker and doesn't assign new ID to this worker.
      *
-     * @param args the id of the updating worker
+     * @return execution result list
      */
     @Override
     public List<String> action(String args, Worker worker) {
@@ -41,14 +34,6 @@ public class Update extends Command {
             result.add("It's not an integer");
             return result;
         }
-        Request request = new Request(getName(), Integer.toString(id), worker);
-        try {
-            result.addAll(transfer.transfer(request));
-        } catch (IOException e) {
-            result.add("Input/output exception");
-        } catch (ClassNotFoundException e) {
-            result.add("Object came to us broken");
-        }
-        return result;
+        return defaultAction(new Request(getName(), Integer.toString(id), worker), result);
     }
 }

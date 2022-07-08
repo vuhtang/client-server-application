@@ -9,7 +9,13 @@ import gui.Translator;
 
 import java.util.ResourceBundle;
 
+/**
+ * Dialog window for inserting new worker at the index as a collection index.
+ */
 public class InsertDialog extends AddDialog {
+    /**
+     * Position number to insert at. Sets after mini-dialog with index entry.
+     */
     private int positionNumber;
     private final MainFrame mainFrame;
 
@@ -37,6 +43,12 @@ public class InsertDialog extends AddDialog {
         });
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     * Called when the window is opened.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         ResourceBundle bundle = ResourceBundle.getBundle("MainLabels", Translator.getLocale(localeName));
         setAddButtonName(bundle.getString("insert"));

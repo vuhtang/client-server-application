@@ -9,15 +9,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Enters user into the program.
+ */
 public class LogIn extends Command {
 
-    private final Transfer transfer;
-
     public LogIn(Transfer transfer) {
-        super("logIn", "application login");
-        this.transfer = transfer;
+        super("logIn", transfer);
     }
 
+    /**
+     * Enters user. If such user wasn't registered there will be a message.
+     *
+     * @return execution result list
+     */
     @Override
     public List<String> action(String args, Worker worker) {
         List<String> result = new ArrayList<>();

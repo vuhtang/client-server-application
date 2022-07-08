@@ -17,10 +17,12 @@ public class WorkerColManager {
      */
     private final WorkerCollection collection;
     private final SqlManager sqlManager;
+
     /**
      * Initializes collection manager to the given collection.
      *
      * @param collection collection to work with
+     * @param sqlManager database manager to work with
      */
     public WorkerColManager(WorkerCollection collection, SqlManager sqlManager) {
         this.collection = collection;
@@ -45,7 +47,7 @@ public class WorkerColManager {
         return o.orElse(null);
     }
 
-    public SqlManager getSqlManager(){
+    public SqlManager getSqlManager() {
         return sqlManager;
     }
 
@@ -82,7 +84,7 @@ public class WorkerColManager {
         return collection.stream().collect(Collectors.groupingBy(Worker::getCoordinates));
     }
 
-    public List<String>  getInfo() {
+    public List<String> getInfo() {
         List<String> info = new ArrayList<>();
         info.add(collection.getClass().getSimpleName());
         info.add(collection.getChangedDate().getDayOfMonth() +
@@ -117,10 +119,8 @@ public class WorkerColManager {
 
     public List<String> showWorkers() {
         List<String> list = new ArrayList<>();
-        if (collection.isEmpty()) {
-            list.add("Collection is empty");
-            return list;
-        } else {
+        if (collection.isEmpty()) return list;
+        else {
             for (Worker worker : collection) {
                 list.add(worker.getId() + "," + worker.getName() + ","
                         + worker.getCoordinates().getX() + "," + worker.getCoordinates().getY() + ","

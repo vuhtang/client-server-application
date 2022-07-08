@@ -21,9 +21,6 @@ public class FilterByPosition extends Command {
      */
     private final WorkerColManager colManager;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public FilterByPosition(WorkerColManager colManager) {
         super("filter_by_position",
                 "display elements whose position field value is equal to the given one");

@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Client-server data exchange object. Send by server.
+ */
 public class Response implements Serializable {
     private final ArrayList<String> message;
 

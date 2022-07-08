@@ -14,8 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-//ввести в консоль:
-//ssh -L 1077:pg:5432 s{isuNumber}@se.ifmo.ru -p 2222
+/**
+ * Main class. Before starting, you need to forward the port by writing the command to the console:
+ * ssh -L 1077:pg:5432 s{isuNumber}@se.ifmo.ru -p 2222
+ */
 public class ServerApp {
     public static final int PORT = 1014;
     private static final Logger logger = Logger.getLogger(ServerApp.class.getName());

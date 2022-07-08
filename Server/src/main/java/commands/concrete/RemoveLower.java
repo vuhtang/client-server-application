@@ -23,9 +23,6 @@ public class RemoveLower extends Command {
      */
     private final WorkerColManager colManager;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public RemoveLower(WorkerColManager colManager) {
         super("remove_lower", "remove from the collection all elements " +
                 "smaller than the given one");
@@ -33,9 +30,7 @@ public class RemoveLower extends Command {
     }
 
     /**
-     * Removes all workers lower than the given one. Firstly adds new worker to the collection
-     * using AddRequest and doesn't assign new ID to this worker. Then removes elements with
-     * this given worker using removeAll method of ArrayList.
+     * Removes all workers lower than the given one.
      *
      * @param args an empty string as an imperfection of the program model
      */

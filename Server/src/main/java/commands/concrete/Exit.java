@@ -17,11 +17,6 @@ public class Exit extends Command {
         super("exit", "terminate program (without saving to file)");
     }
 
-    /**
-     * In fact, this method will never be used :)
-     *
-     * @param args an empty string as an imperfection of the program model
-     */
     @Override
     public List<String> action(String args, Worker worker, Token token) {
         System.exit(0);

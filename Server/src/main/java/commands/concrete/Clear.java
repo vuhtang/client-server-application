@@ -21,19 +21,13 @@ public class Clear extends Command {
      */
     private final WorkerColManager colManager;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public Clear(WorkerColManager colManager) {
         super("clear", "remove all workers from collection");
         this.colManager = colManager;
     }
 
     /**
-     * Removes all workers from the given collection using removeAll method of super class.
-     *
-     * @param args an empty line, as an imperfection of the program model
-     * @see java.util.ArrayList#removeAll(Collection)
+     * Removes all workers from the given collection.
      */
     @Override
     public List<String> action(String args, Worker worker, Token token) {

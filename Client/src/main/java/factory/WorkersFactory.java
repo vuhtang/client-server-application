@@ -9,7 +9,7 @@ import java.util.Locale;
 
 /**
  * Factory generating objects of type Worker. It has setters with some validation within and
- * one getter which returns a new object. It used basically during the parsing workers from file.
+ * one getter which returns a new object.
  *
  * @see Worker
  */

@@ -10,22 +10,18 @@ import java.util.Objects;
  * @see Location
  */
 public class Person implements Serializable {
-
     /**
      * Person's height. Must be positive.
      */
     private Double height;
-
     /**
      * ID of the person's passport. It's length must be from 4 to 20.
      */
     private String passportID;
-
     /**
      * Person's location. Can't be null.
      */
     private Location location;
-
     /**
      * Initialises fields to default values.
      */

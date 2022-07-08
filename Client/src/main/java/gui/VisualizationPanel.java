@@ -11,6 +11,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
+/**
+ * Panel for visualizing workers, which are drawn depending on the current user
+ * and the characteristics of the worker.
+ */
 public class VisualizationPanel extends JPanel {
     private final Map<String, Color> ownersToColors = new HashMap<>();
     private final Color[] colors = new Color[]{Color.BLACK, Color.BLUE, Color.CYAN, Color.darkGray, Color.GREEN,
@@ -28,6 +32,14 @@ public class VisualizationPanel extends JPanel {
         setBackground(Color.WHITE);
     }
 
+    /**
+     * Draws the given worker. Worker image border color is determined by the current user.
+     * If all available colors have already been used, they will start repeating.
+     * When workers approach each other, their animation changes.
+     *
+     * @param worker worker to dram
+     * @param mainFrame owner frame
+     */
     public void drawWorker(Worker worker, MainFrame mainFrame) {
         WorkerColManager colManager = mainFrame.getColManager();
         Coordinates coordinates = worker.getCoordinates();

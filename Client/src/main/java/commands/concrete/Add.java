@@ -12,38 +12,22 @@ import java.util.List;
 
 /**
  * Add command. It adds new worker to the given collection,
- * worker data is entered in the console sequentially.
  */
 public class Add extends Command {
-    private final Transfer transfer;
 
-    /**
-     * Initialised collection manager, the name and the description of the new command.
-     */
     public Add(Transfer transfer) {
-        super("add", "add a new element to the collection");
-        this.transfer = transfer;
+        super("add", transfer);
     }
 
     /**
-     * Adds new worker to the given collection. During work, it makes a request to enter
-     * data about the worker through the console using AddRequest. Also assigns ID to a new worker.
+     * Adds new worker to the given collection. Also assigns ID to a new worker.
      *
-     * @param args an empty line, as an imperfection of the program model
-     * @see AddRequest
+     * @return execution result list
      */
     @Override
     public List<String> action(String args, Worker worker) {
         List<String> result = new ArrayList<>();
         if (worker == null) return null;
-        Request request = new Request(getName(), args, worker);
-        try {
-            result.addAll(transfer.transfer(request));
-        } catch (IOException e) {
-            result.add("Input/output exception");
-        } catch (ClassNotFoundException e) {
-            result.add("Object came to us broken");
-        }
-        return result;
+        return defaultAction(new Request(getName(), args, worker), result);
     }
 }

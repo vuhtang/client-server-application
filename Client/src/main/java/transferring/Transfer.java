@@ -4,6 +4,10 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
+/**
+ * Entity responsible for communication between the client and the server.
+ * Sends request and receives responses.
+ */
 public class Transfer {
     private final String HOST;
     private final int PORT;

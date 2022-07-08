@@ -7,16 +7,16 @@ import java.time.format.DateTimeParseException;
 
 
 /**
- * Class is for reading workers from file, validation occurs during the reading,
- * in case of invalid value of some field, an error message will be displayed
- * with the line number in which it was found.
+ * Class is for reading workers from string massive, validation occurs during the reading,
+ * in case of invalid value of some field, an error message will be displayed.
+ * Used when initially loading data from the server.
  */
 public class WorkerReader {
 
     /**
      * Reads worker from string massive of fields. Uses factories with validation in.
      *
-     * @param values 14 string values of fields
+     * @param values 15 string values of fields
      * @return a new worker
      * @throws InvalidInputException if any value fails validation
      */

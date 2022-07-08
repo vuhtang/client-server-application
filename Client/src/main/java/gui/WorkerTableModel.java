@@ -4,6 +4,9 @@ import collection.WorkerColManager;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * Basic table model for my workers table.
+ */
 public class WorkerTableModel extends AbstractTableModel {
     private final WorkerColManager colManager;
     private final Object[][] rowData;

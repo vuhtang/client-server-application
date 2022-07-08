@@ -15,6 +15,10 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
+/**
+ * Dialog window for adding new object.
+ * Dialogs with similar functionality are also inherited from it.
+ */
 public class AddDialog extends JDialog {
     private final JLabel messageLabel;
     private final JSlider coordXSlider;
@@ -119,6 +123,12 @@ public class AddDialog extends JDialog {
         addButton.addActionListener(addButtonListener);
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     * Called when the window is opened.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         ResourceBundle bundle = ResourceBundle.getBundle("MainLabels", Translator.getLocale(localeName));
         addButton.setText(bundle.getString("add"));

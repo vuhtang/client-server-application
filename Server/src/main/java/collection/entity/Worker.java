@@ -64,6 +64,7 @@ public class Worker implements Comparable<Worker>, Serializable {
 
     /**
      * Workers are compared on the basis of their salary. The higher the salary, the better the worker.
+     * we live in society.
      *
      * @param o the worker to be compared
      * @return a negative integer, zero,or a positive integer as this object is less than,
@@ -142,18 +143,7 @@ public class Worker implements Comparable<Worker>, Serializable {
     public String toString() {
         return "[ ID = " + id + ", Name = " + name
                 + ", PassportID = " + person.getPassportID()
-//                + ", X_coordinate = " + coordinates.getX() +
-//                ", Y_coordinate = " + coordinates.getY() + ", CreationDate = "
-//                +creationDate.getDayOfMonth() + "." + creationDate.getMonth().getValue()
-//                + "." + creationDate.getYear() + ", Salary = " + salary
-//                + ", Position = " + position + ", Status = " + status
-//                + ", Person's height = " + person.getHeight() + ", Person's passportID = "
-//                + person.getPassportID()
-//                + ", X_coordinate of person's location = " + person.getLocation().getX()
-//                + ", Y_coordinate of person's location = " + person.getLocation().getY()
-//                + ", Z_coordinate of person's location = " + person.getLocation().getZ()
-//                + ", Name of person's location = " + person.getLocation().getName()
-                + ", Owner = "  + owner + "]";
+                + ", Owner = " + owner + "]";
     }
 
     @Override
@@ -168,5 +158,4 @@ public class Worker implements Comparable<Worker>, Serializable {
     public int hashCode() {
         return Objects.hash(id, name, coordinates, creationDate, salary, position, status, person);
     }
-
 }

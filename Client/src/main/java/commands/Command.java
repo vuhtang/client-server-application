@@ -1,7 +1,10 @@
 package commands;
 
 import collection.entity.Worker;
+import transferring.Request;
+import transferring.Transfer;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -10,32 +13,45 @@ import java.util.List;
  */
 public abstract class Command {
     /**
-     * The command description.
-     */
-    private final String description;
-    /**
      * The command name.
      */
     private final String name;
+    /**
+     * Entity that implements communication with the server.
+     */
+    protected final Transfer transfer;
 
     /**
      * Initialized the name and the description of the new command.
      *
      * @param name the command name
-     * @param desc the command description
      */
-    public Command(String name, String desc) {
+    public Command(String name, Transfer transfer) {
         this.name = name;
-        this.description = desc;
+        this.transfer = transfer;
     }
 
     public abstract List<String> action(String args, Worker worker);
 
-    public String getName() {
-        return name;
+    /**
+     * Default action that every self-respecting command performs.
+     *
+     * @param request request to execute
+     * @param result  execution result list
+     * @return the same execution result list
+     */
+    public List<String> defaultAction(Request request, List<String> result) {
+        try {
+            result.addAll(transfer.transfer(request));
+        } catch (IOException e) {
+            result.add("Input/output exception");
+        } catch (ClassNotFoundException e) {
+            result.add("Object came to us broken");
+        }
+        return result;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 }

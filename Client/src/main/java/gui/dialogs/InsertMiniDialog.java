@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
 
+/**
+ * Mini-dialog index entry window. Lets further only if input is correct.
+ * Tells this index to the next dialog.
+ */
 public class InsertMiniDialog extends JDialog {
     private ResourceBundle bundle;
     private final JTextField position;
@@ -49,6 +53,12 @@ public class InsertMiniDialog extends JDialog {
         });
     }
 
+    /**
+     * Updates all labels in window according to locale from the argument.
+     * Called when the window is opened.
+     *
+     * @param localeName locale to display labels
+     */
     public void setLocaleAndUpdateLabels(String localeName) {
         bundle = ResourceBundle.getBundle("MainLabels", Translator.getLocale(localeName));
         enterPositionLabel.setText(bundle.getString("enterPosition"));
